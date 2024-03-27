@@ -1,0 +1,30 @@
+-- Golang
+
+Runtime
+59
+ms
+Beats
+32.16%
+of users with Go
+Memory
+8.09
+MB
+Beats
+55.48%
+of users with Go
+
+-- C
+
+Runtime
+49
+ms
+Beats
+9.76%
+of users with C
+Memory
+10.86
+MB
+Beats
+62.95%
+of users with C
+
