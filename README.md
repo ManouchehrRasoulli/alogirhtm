@@ -1,3 +1,5 @@
 # Alogirhtm / Datastrictire
 
-    [*] First missing positive number.
+Algorithm Probled Solved:
+
+- [X] First missing positive number.
