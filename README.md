@@ -1,3 +1,3 @@
 # Alogirhtm / Datastrictire
 
-[*] First missing positive number
+    [*] First missing positive number.
