@@ -1,0 +1,16 @@
+NAIVE_STRING_MATCHER(T, P)
+n = T.length
+m = P.length
+
+for s = 0 to n - m
+    if P [1...m] == T [s + 1 ... s + m]
+        print “Pattern occurs with shift” s
+
+----------
+.*
+
+means i have an state who start with a single characte after that can anythings happen
+
+a -> b*
+----------
+
