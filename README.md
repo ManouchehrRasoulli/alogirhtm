@@ -2,6 +2,7 @@
 
 Algorithm Probled Solved:
 
-- [X] First missing positive number.
+- [X] First missing positive number
 - [X] Regular expression matching
-- [ ] Add two numbers
+- [X] Add two numbers
+- [ ] Midian of two sorted array

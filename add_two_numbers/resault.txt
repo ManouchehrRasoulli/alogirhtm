@@ -1,0 +1,26 @@
+Runtime
+17
+ms
+Beats
+9.99%
+of users with C
+Memory
+7.46
+MB
+Beats
+72.35%
+of users with C
+
+--- after existing linked list
+Runtime
+16
+ms
+Beats
+17.65%
+of users with C
+Memory
+7.22
+MB
+Beats
+93.89%
+of users with C
