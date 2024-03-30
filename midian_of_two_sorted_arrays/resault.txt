@@ -1,0 +1,30 @@
+-- Go
+
+Runtime
+8
+ms
+Beats
+76.84%
+of users with Go
+Memory
+5.30
+MB
+Beats
+51.78%
+of users with Go
+
+-- C
+
+Runtime
+9
+ms
+Beats
+78.30%
+of users with C
+Memory
+6.40
+MB
+Beats
+56.05%
+of users with C
+

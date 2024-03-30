@@ -1,0 +1,15 @@
+--- Naive
+
+create a new array
+merge two array
+sort new array
+find mididan
+
+--- Better
+
+create a new array
+merge with sorting two array
+find mididan
+
+
+
