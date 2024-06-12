@@ -1,4 +1,4 @@
-package nearest_square_root
+package _kyu
 
 import (
 	"math"

@@ -1,6 +1,8 @@
-package nearest_square_root
+package _kyu
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestNearestSq(t *testing.T) {
 	t.Log(NearestSq(10))
