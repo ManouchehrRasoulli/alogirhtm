@@ -2,6 +2,7 @@ package _kyu
 
 import (
 	"fmt"
+	"slices"
 )
 
 type item struct {
@@ -89,15 +90,56 @@ func Solution(ar []int) int {
 		return ar[0]
 	}
 
-	return smallestInRange(ar, 0, len(ar)-1) * len(ar)
+	arc := make([]int, len(ar), len(ar))
+	for i, v := range ar {
+		arc[i] = v
+	}
+
+	slices.SortFunc(arc, func(a, b int) int {
+		if a < b {
+			return +1
+		}
+
+		return -1
+	})
+
+	return smallestDifInRange(arc, 0, len(arc)-1) * len(arc)
 }
 
-func smallestInRange(ar []int, i, j int) int {
+func min_(l, r int) (min, max int) {
+	if l < r {
+		return l, r
+	}
+
+	return r, l
+}
+
+func di_(mx, mi int) int {
+	if mi == mx {
+		return mi
+	}
+
+	di := mx % mi
+	if di == 0 {
+		return mi
+	}
+
+	return di
+}
+
+func smallestDifInRange(ar []int, i, j int) int {
 	if i == j {
 		return ar[i]
 	}
 
 	if j-i != 1 {
 		d := (j - i) / 2
+		l := smallestDifInRange(ar, i, i+d)
+		r := smallestDifInRange(ar, i+d+1, j)
+		mi, mx := min_(l, r)
+		return di_(mx, mi)
 	}
+
+	mi, mx := min_(ar[i], ar[j])
+	return di_(mx, mi)
 }
