@@ -6,3 +6,5 @@ function combat(health, damage) {
     }
     return h;
 }
+
+console.log(combat(12, 10));
