@@ -1,6 +1,6 @@
-# Alogirhtm / Datastrictire
+# Algorithm / Data Structure
 
-Algorithm Probled Solved:
+Algorithm Problem Solved:
 
 - [X] First missing positive number
 - [X] Regular expression matching
