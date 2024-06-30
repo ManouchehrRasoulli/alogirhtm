@@ -1,9 +1,9 @@
 
 function Xor(a, b) {
     if (a === b) {
-        return false
+        return false;
     }
-    return true
+    return true;
 }
 
 console.log(Xor(true, false));
