@@ -2,17 +2,10 @@ function onLine(points) {
     // formula for coline
     // y2 - y1 / x2 - x1 === y3 - y2 / x3 - x2
 
-    let dif = 0;
-
-    for (let i = 1; i < points.length; i++) {
-        let x = (points[i][1] - points[i - 1][1]) / (points[i][0] - points[i - 1][0]);
-        if (dif === 0) {
-            dif = x;
-            continue;
-        }
-
-        if (x !== dif) {
-            return false;
+    for (let i = 2; i < points.length; i++) {
+        if ((points[i - 1][1] - points[i][1]) * (points[i - 2][0] - points[i][0]) !==
+            (points[i - 2][1] - points[i][1]) * (points[i - 1][0] - points[i][0])) {
+            return false
         }
     }
 
