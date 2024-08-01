@@ -7,5 +7,7 @@ Algorithm Problem Solved:
 - [X] Add two numbers
 - [X] Midian of two sorted array
 - [X] Rotate image
-- [ ] 62 Unique paths
-- [ ] 63 Unique paths 2
+- [X] Elevator 6kyu
+- [X] Elevator 4kyu
+- [ ] 62 Unique paths (leet)
+- [ ] 63 Unique paths 2 (leet)
