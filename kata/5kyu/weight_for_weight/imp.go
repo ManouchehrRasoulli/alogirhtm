@@ -1,7 +1,6 @@
 package kata
 
 import (
-	"strconv"
 	"strings"
 )
 
@@ -17,6 +16,7 @@ func sort(param []string, fn func(a, b string) int) {
 
 func OrderWeight(str string) string {
 	sp := strings.Split(str, " ")
+
 	spf := make([]string, 0)
 	for _, x := range sp {
 		if x == " " {
@@ -30,8 +30,7 @@ func OrderWeight(str string) string {
 		sm := func(x string) int {
 			xSum := 0
 			for _, v := range x {
-				f, _ := strconv.Atoi(string(v))
-				xSum += f
+				xSum += int(v - '0')
 			}
 
 			return xSum
