@@ -20,25 +20,25 @@ function nextPos(loc, dir) {
     switch (dir) {
         case right:
             loc.y++
-            return loc;
+            break;
         case down:
             loc.x++;
-            return loc;
+            break;
         case left:
             loc.y--;
-            return loc;
+            break;
         case up:
             loc.x--;
-            return loc;
+            break;
     }
 }
 
 function createSpiral(n) {
-    if (typeof n !== "number" || n < 1) {
-        throw [];
+    if (Math.round(n) !== n || n < 1) {
+        return [];
     }
     if (n === 1) {
-        return [1];
+        return [[1]];
     }
 
     let matrix = [];
@@ -53,33 +53,30 @@ function createSpiral(n) {
 
     let dir = right;
 
-    for (let i = 1; i <= n + 4; i++) {
+    for (let i = 1; i <= n * n; i++) {
         console.log(loc, dir);
         matrix[loc.x][loc.y] = i;
-        nextPos(loc, dir);
-        console.log("nx", loc, dir);
-        if (loc.x === n || loc.y === n || loc.x === -1 || loc.y === -1) {
-            switch (dir){
-                case right:
-                    loc.x--;
-                    break;
-                case down:
-                    loc.y--;
-                    break;
-                case left:
-                    loc.x++;
-                    break;
-                case up:
-                    loc.y++;
-                    break;
-            }
+        let nextLoc = {
+            x: loc.x,
+            y: loc.y
+        };
+        nextPos(nextLoc, dir);
+        console.log("nx", nextLoc, dir);
+        if (nextLoc.x > n - 1 || nextLoc.y > n - 1 || nextLoc.x < 0 || nextLoc.y < 0) {
             dir = changeDirection(dir);
             nextPos(loc, dir);
-            console.log("change direction");
+            continue;
         }
+        if (matrix[nextLoc.x][nextLoc.y] !== undefined) {
+            dir = changeDirection(dir);
+            nextPos(loc, dir);
+            continue;
+        }
+        loc = nextLoc;
     }
 
     return matrix;
 }
 
 console.log(createSpiral(3));
+console.log(createSpiral(4.5));
