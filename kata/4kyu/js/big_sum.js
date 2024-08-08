@@ -29,9 +29,9 @@ function add(a, b) {
         x += c;
     }
 
-    return x.split('').reverse().join('');
+    return x.split('').reverse().join('').replace(/^0+/, '');
 }
 
-console.log(add('63829983432984289347293874', '90938498237058927340892374089'));
+console.log(add('00103', '08567'));
 // 91002328220491911630239667963
 
