@@ -27,8 +27,7 @@ function pathFinder(maze) {
     mazeMatrix[0][0] = "0"
 
     while (q.length !== 0) {
-        let current = q.pop();
-        console.log(current);
+        let current = q.shift();
         let currentCost = Number(mazeMatrix[current[0]][current[1]]);
         if (current[0] === n && current[1] === n) {
             return Number(mazeMatrix[n][n]);
