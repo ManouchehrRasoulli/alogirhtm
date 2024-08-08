@@ -1,3 +1,4 @@
+/*
 Array.prototype.containsPoint = function (point) {
     for (let i = 0; i < this.length; i++) {
         if (this[i][0] === point[0] && this[i][1] === point[1]) {
@@ -7,6 +8,7 @@ Array.prototype.containsPoint = function (point) {
 
     return false;
 }
+ */
 
 function toMatrix(maze) {
     console.log(maze);
@@ -20,7 +22,7 @@ function toMatrix(maze) {
     return mz;
 }
 
-function neighbors(matrix, point) {
+function neighbors(matrix, n, point) {
     let ng = [[point[0] - 1, point[1]],
         [point[0], point[1] - 1],
         [point[0] + 1, point[1]],
@@ -28,7 +30,7 @@ function neighbors(matrix, point) {
 
     let final = [];
     for (let i = 0; i < 4; i++) {
-        if (ng[i][0] < 0 || ng[i][0] >= matrix.length || ng[i][1] < 0 || ng[i][1] >= matrix.length) {
+        if (ng[i][0] < 0 || ng[i][0] > n || ng[i][1] < 0 || ng[i][1] > n) {
             continue;
         }
         if (matrix[ng[i][0]][ng[i][1]] === 'W') {
@@ -41,27 +43,21 @@ function neighbors(matrix, point) {
 }
 
 function pathFinder(maze) {
-    let mazeMatrix = toMatrix(maze);
+    // let mazeMatrix = toMatrix(maze);
+    let mazeMatrix = maze.split(`\n`).map(l => l.split(``));
+    let n = mazeMatrix.length - 1;
 
     let q = [[0, 0]];
-    let path = [];
 
     while (q.length !== 0) {
         let current = q.pop();
-        path.push(current);
-        if (current[0] === mazeMatrix.length - 1 && current[1] === mazeMatrix.length - 1) {
-            console.log("final-path", path);
+        mazeMatrix[current[0]][current[1]] = 'W';
+        if (current[0] === n && current[1] === n) {
             return true;
         }
-        let ng = neighbors(mazeMatrix, current);
-        for (let i = 0; i < ng.length; i++) {
-            if (!path.containsPoint(ng[i])) {
-                q.push(ng[i]);
-            }
-        }
+        q.push(...neighbors(mazeMatrix, n, current));
     }
 
-    console.log("search-path", path);
     return false;
 }
 
