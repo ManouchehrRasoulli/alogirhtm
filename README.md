@@ -12,5 +12,5 @@ Algorithm Problem Solved:
 - [ ] 62 Unique paths (leet)
 - [ ] 63 Unique paths 2 (leet)
 - [X] 5kyu Kata
-- [ ] 4kyu Kata
+- [X] 4kyu Kata
 - [ ] 3kyu Kata
