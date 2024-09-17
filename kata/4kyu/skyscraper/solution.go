@@ -68,7 +68,7 @@ func scenes(row, col, d dir, board [4][4]int) int {
 	maxScene := 0
 	switch d {
 	case down:
-		for i := 0; i < 3; i++ {
+		for i := 0; i <= 3; i++ {
 			if board[i][col] > maxScene {
 				maxScene = board[i][col]
 				sceene++
@@ -92,7 +92,7 @@ func scenes(row, col, d dir, board [4][4]int) int {
 		}
 		break
 	case right:
-		for i := 0; i < 3; i++ {
+		for i := 0; i <= 3; i++ {
 			if board[row][i] > maxScene {
 				maxScene = board[row][i]
 				sceene++
