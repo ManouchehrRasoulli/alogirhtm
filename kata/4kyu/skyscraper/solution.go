@@ -181,9 +181,9 @@ func solveSkyscraperSudoku(clues []int, board [4][4]int) (bool, [4][4]int) {
 	}
 
 	for i := 4; i > 0; i-- {
+		board[row][col] = i
 		if !violate(board, clues, row, col, i) {
-			board[row][col] = i
-			ok, x := solveSudoku(board)
+			ok, x := solveSkyscraperSudoku(clues, board)
 			if ok {
 				return ok, x
 			}

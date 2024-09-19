@@ -59,6 +59,28 @@ func TestSolveSudoku(t *testing.T) {
 	}
 }
 
+func TestSolveSkyscraper(t *testing.T) {
+	var clues = []int{
+		0, 0, 1, 2,
+		0, 2, 0, 0,
+		0, 3, 0, 0,
+		0, 1, 0, 2}
+
+	board := [4][4]int{
+		{0, 0, 0, 0},
+		{0, 0, 0, 0},
+		{0, 0, 0, 0},
+		{0, 0, 0, 0},
+	}
+
+	ok, b := solveSkyscraperSudoku(clues, board)
+	t.Log(ok)
+
+	for i := 0; i < 4; i++ {
+		t.Log(b[i])
+	}
+}
+
 func TestSceene(t *testing.T) {
 	var boar = [4][4]int{
 		{2, 1, 4, 3},
