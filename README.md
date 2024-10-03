@@ -9,6 +9,8 @@ Algorithm Problem Solved:
 - [X] Rotate image
 - [X] Elevator 6kyu
 - [X] Elevator 4kyu
+- [X] 55 Jump game (leet)
+- [X] 56 Merge intervals (leet)
 - [ ] 62 Unique paths (leet)
 - [ ] 63 Unique paths 2 (leet)
 - [X] 5kyu Kata
