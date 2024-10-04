@@ -11,7 +11,7 @@ Algorithm Problem Solved:
 - [X] Elevator 4kyu
 - [X] 55 Jump game (leet)
 - [X] 56 Merge intervals (leet)
-- [ ] 56 Merge with new interval
+- [X] 57 Merge with new interval
 - [ ] 62 Unique paths (leet)
 - [ ] 63 Unique paths 2 (leet)
 - [X] 5kyu Kata
