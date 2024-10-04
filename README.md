@@ -13,6 +13,7 @@ Algorithm Problem Solved:
 - [X] 56 Merge intervals (leet)
 - [X] 57 Merge with new interval(leet)
 - [X] 61 Rotate right (leet)
+- [ ] 65 Valid number (leet)
 - [ ] 62 Unique paths (leet)
 - [ ] 63 Unique paths 2 (leet)
 - [X] 5kyu Kata
