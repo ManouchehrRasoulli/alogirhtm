@@ -6,4 +6,4 @@ Algorithm Problem Solved:
 
 - [ ] 65 valid number
 - [X] 112 path sum
-- [ ] 113 path sum 2
+- [X] 113 path sum 2
