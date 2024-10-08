@@ -30,7 +30,7 @@ func count(sm map[rune][]int, t string, lasPosS int, tPos int) int {
 	return cnt
 }
 
-func numDistinct(s string, t string) int {
+func numDistinct_(s string, t string) int {
 	sm := process(s)
 	return count(sm, t, 0, 0)
 }
