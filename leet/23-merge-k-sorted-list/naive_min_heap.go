@@ -6,46 +6,27 @@ type ListNode struct {
 }
 
 func mergeKLists(lists []*ListNode) *ListNode {
-	var head *ListNode
-	var tail *ListNode
-
 	hp := &MinHeap{
 		arr: make([]*ListNode, 0, len(lists)),
 	}
 
-	for {
-		for i := 0; i < len(lists); i++ {
-			c := lists[i]
-			if c == nil {
-				lists = append(lists[:i], lists[i+1:]...)
-				continue
-			}
-
-			hp.Insert(c)
-			lists[i] = lists[i].Next
-		}
-
-		if len(lists) == 0 {
-			break
-		}
+	for i := 0; i < len(lists); i++ {
+		hp.Insert(lists[i])
 	}
 
-	for {
-		x := hp.ExtractMin()
-		if x == nil {
+	dummy := &ListNode{}
+	current := dummy
+
+	for len(hp.arr) != 0 {
+		smallest := hp.ExtractMin()
+		if smallest == nil {
 			break
 		}
-
-		if head == nil {
-			head = x
-			tail = head
-		} else {
-			tail.Next = x
-			tail = tail.Next
-		}
+		current.Next = smallest
+		current = current.Next
 	}
 
-	return head
+	return dummy.Next
 }
 
 type MinHeap struct {
@@ -53,6 +34,9 @@ type MinHeap struct {
 }
 
 func (h *MinHeap) Insert(key *ListNode) {
+	if key == nil {
+		return
+	}
 	h.arr = append(h.arr, key)
 	h.upHeap(len(h.arr) - 1)
 }
@@ -62,9 +46,13 @@ func (h *MinHeap) ExtractMin() *ListNode {
 		return nil
 	}
 	root := h.arr[0]
-	h.arr[0] = h.arr[len(h.arr)-1]
-	h.arr = h.arr[:len(h.arr)-1]
+	h.arr[0] = h.arr[0].Next
+	if h.arr[0] == nil {
+		h.arr[0] = h.arr[len(h.arr)-1]
+		h.arr = h.arr[:len(h.arr)-1]
+	}
 	h.downHeap(0)
+	root.Next = nil
 	return root
 }
 
