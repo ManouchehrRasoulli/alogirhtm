@@ -10,7 +10,7 @@ var reverse = function (x) {
     let rx = 0;
     while (x !== 0) {
         let v = x % 10;
-        x = Math.floor(x / 10);
+        x = Math.trunc(x / 10);
         rx *= 10;
         rx += v;
     }
