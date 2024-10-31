@@ -6,8 +6,8 @@ func findMin(nums []int) int {
 	var x func(nums []int, start, end int) int
 
 	x = func(nums []int, start int, end int) int {
-		if start+1 == end || start == end {
-			return min(nums[start], nums[end])
+		if start == end {
+			return nums[start]
 		}
 
 		mid := (end + start) / 2
@@ -19,7 +19,7 @@ func findMin(nums []int) int {
 		}
 
 		if nums[mid] > nums[start] {
-			return x(nums, mid, end)
+			return x(nums, mid+1, end)
 		}
 
 		return -1
