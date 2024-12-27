@@ -3,12 +3,7 @@ package kata
 import (
 	"fmt"
 	"strconv"
-	"strings"
 )
-
-func toString(h, m int) string {
-	return fmt.Sprintf("%02d:%02d", h, m)
-}
 
 func chimesTime(h, m int) int {
 	if m == 0 {
@@ -47,19 +42,17 @@ func nextTime(h, m int) (int, int) {
 }
 
 func CuckooClock(initialTime string, chimes int) string {
-	hs, ms := strings.Split(initialTime, ":")[0], strings.Split(initialTime, ":")[1]
-	h, _ := strconv.Atoi(hs)
-	m, _ := strconv.Atoi(ms)
+	h, _ := strconv.Atoi(initialTime[0:2])
+	m, _ := strconv.Atoi(initialTime[3:5])
 
-	chimesNow := 0
 	for {
-		chimesNow += chimesTime(h, m)
-		if chimesNow >= chimes {
+		chimes -= chimesTime(h, m)
+		if chimes <= 0 {
 			break
 		}
 
 		h, m = nextTime(h, m)
 	}
 
-	return toString(h, m)
+	return fmt.Sprintf("%02d:%02d", h, m)
 }
