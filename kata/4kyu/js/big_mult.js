@@ -94,5 +94,5 @@ function multiply(a, b) {
     return x;
 }
 
-console.log(multiply("2", "0"));
+console.log(multiply("2", "10"));
 
