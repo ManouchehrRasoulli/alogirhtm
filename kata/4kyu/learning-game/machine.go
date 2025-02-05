@@ -20,26 +20,86 @@ func Actions() []func(int) int {
 	}
 }
 
+type operation struct {
+	doneForOperations []int
+	fn                func(int) int
+}
+
+func (o *operation) doesDoneForThatCommand(cmd int) bool {
+	for _, doneForOperation := range o.doneForOperations {
+		if doneForOperation == cmd {
+			return true
+		}
+	}
+
+	return false
+}
+
 type Machine struct {
-	Cmd     int
-	Mapping map[int]int
+	operations []operation
+
+	// state
+	runningCommand int
+	fn             func(int) int
+
+	learned []func(int) int
 }
 
 func NewMachine() Machine {
-	return Machine{Mapping: make(map[int]int)}
+	m := Machine{
+		operations: make([]operation, 0),
+	}
+
+	functions := Actions()
+	for _, fn := range functions {
+		m.operations = append(m.operations, operation{
+			doneForOperations: make([]int, 0),
+			fn:                fn,
+		})
+	}
+
+	m.learned = make([]func(int) int, len(m.operations))
+
+	return m
 }
 
 func (m *Machine) Command(cmd int, num int) int {
-	m.Cmd = cmd
-	return Actions()[m.Mapping[cmd]](num)
+	cmd = cmd % len(m.learned)
+
+	if fn := m.learned[cmd]; fn != nil {
+		m.fn = fn
+		m.runningCommand = cmd
+
+		return fn(num)
+	}
+
+	for i, op := range m.operations {
+		if !op.doesDoneForThatCommand(cmd) {
+
+			m.fn = op.fn
+			m.runningCommand = cmd
+			m.operations[i].doneForOperations = append(m.operations[i].doneForOperations, cmd)
+
+			break
+		}
+	}
+
+	if m.fn == nil {
+		for i, _ := range m.operations {
+			m.operations[i].doneForOperations = make([]int, 0)
+		}
+
+		return m.Command(cmd, num)
+	}
+
+	return m.fn(num)
 }
 
 func (m *Machine) Response(res bool) {
-	if !res {
-		if m.Mapping[m.Cmd] == 4 {
-			m.Mapping[m.Cmd] = 0
-		} else {
-			m.Mapping[m.Cmd] += 1
-		}
+	if res {
+		m.learned[m.runningCommand] = m.fn
 	}
+
+	m.fn = nil
+	m.runningCommand = 0
 }
