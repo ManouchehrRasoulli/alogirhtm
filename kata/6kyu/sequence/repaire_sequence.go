@@ -62,16 +62,6 @@ func repairSequence(arr []int) []int {
 			break
 		}
 
-		if diff != maxVal && i-1 == 0 {
-			if arr[i-1]+2*maxVal == arr[i+1] {
-				arr[i] = arr[i-1] + maxVal
-			} else {
-				arr[i-1] = arr[i] - maxVal
-			}
-
-			break
-		}
-
 		if diff != maxVal {
 			if arr[i-1]+2*maxVal == arr[i+1] {
 				arr[i] = arr[i-1] + maxVal
