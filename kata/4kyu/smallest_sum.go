@@ -85,7 +85,7 @@ func Solution0(ar []int) int {
 	return head.value * len(ar)
 }
 
-func Solution(ar []int) int {
+func Solution1(ar []int) int {
 	if len(ar) == 1 {
 		return ar[0]
 	}
@@ -142,4 +142,28 @@ func smallestDifInRange(ar []int, i, j int) int {
 
 	mi, mx := min_(ar[i], ar[j])
 	return di_(mx, mi)
+}
+
+func gcd(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
+
+func Solution(ar []int) int {
+	if len(ar) == 0 {
+		return 0
+	}
+
+	if len(ar) == 1 {
+		return ar[0]
+	}
+
+	result := ar[0]
+	for i := 1; i < len(ar); i++ {
+		result = gcd(result, ar[i])
+	}
+
+	return result * len(ar)
 }
