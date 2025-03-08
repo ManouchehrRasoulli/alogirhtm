@@ -46,14 +46,11 @@ func Count(till int) int {
 
 			localSum := 0
 			for i := start; i < end; i += 2 {
-				if i%3 == 0 || i%7 == 0 || i%13 == 0 {
+				if i%3 == 0 || i%7 == 0 || i%13 == 0 || i%10 != 0 {
 					continue
 				}
 
 				sq := i * i
-				if sq%10 != 0 {
-					continue
-				}
 
 				if !isPrime(sq+1) ||
 					!isPrime(sq+3) ||
