@@ -2,6 +2,7 @@ package _2_path_sum_two_way
 
 import (
 	_ "embed"
+	"fmt"
 	"github.com/ManouchehrRasoulli/alogirhtm/euler/helper"
 	"math"
 	"strconv"
@@ -10,7 +11,7 @@ import (
 
 type bfs struct {
 	locations []costPoint
-	visited   []point // will not be used
+	visited   map[string]struct{} // will not be used
 }
 
 func newBfs() *bfs {
@@ -32,6 +33,7 @@ func (bfs *bfs) minLeftToRight(matrix [][]int) int {
 
 func (bfs *bfs) search(row, col int, matrix [][]int) int {
 	bfs.locations = make([]costPoint, 0)
+	bfs.visited = make(map[string]struct{})
 
 	bfs.locations = append(bfs.locations, costPoint{
 		cost: matrix[row][col],
@@ -43,6 +45,7 @@ func (bfs *bfs) search(row, col int, matrix [][]int) int {
 
 	for len(bfs.locations) != 0 {
 		loc := bfs.nextPoint()
+		bfs.visited[loc.points.String()] = struct{}{}
 		ngs := bfs.neighbors(matrix, loc.points)
 
 		if len(ngs) == 0 {
@@ -50,6 +53,10 @@ func (bfs *bfs) search(row, col int, matrix [][]int) int {
 		}
 
 		for _, n := range ngs {
+			if _, visited := bfs.visited[n.String()]; visited {
+				continue
+			}
+
 			bfs.locations = append(bfs.locations, costPoint{
 				cost: loc.cost + matrix[n.row][n.col],
 				points: point{
@@ -115,6 +122,10 @@ type (
 		points point
 	}
 )
+
+func (c point) String() string {
+	return fmt.Sprintf("%d-%d", c.row, c.col)
+}
 
 var (
 	//go:embed input.txt
