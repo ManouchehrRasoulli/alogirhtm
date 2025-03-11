@@ -1,11 +1,12 @@
 package day2
 
 import (
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 	"testing"
 )
 
 func TestReader(t *testing.T) {
-	reader, err := Read("input_test.txt")
+	reader, err := helper.Read("input_test.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -22,7 +23,7 @@ func TestReader(t *testing.T) {
 }
 
 func TestValidCodesTestCodes(t *testing.T) {
-	reader, err := Read("input_test.txt")
+	reader, err := helper.Read("input_test.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -31,7 +32,7 @@ func TestValidCodesTestCodes(t *testing.T) {
 }
 
 func TestValidCodesPuzzleCodes(t *testing.T) {
-	reader, err := Read("input_puzzle.txt")
+	reader, err := helper.Read("input_puzzle.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,7 +41,7 @@ func TestValidCodesPuzzleCodes(t *testing.T) {
 }
 
 func TestValidCodesWithToleranceTestCodes(t *testing.T) {
-	reader, err := Read("input_test.txt")
+	reader, err := helper.Read("input_test.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -49,7 +50,7 @@ func TestValidCodesWithToleranceTestCodes(t *testing.T) {
 }
 
 func TestValidCodesWithTolerancePuzzleCodes(t *testing.T) {
-	reader, err := Read("input_puzzle.txt")
+	reader, err := helper.Read("input_puzzle.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
