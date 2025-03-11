@@ -32,17 +32,32 @@ func (m Multiply) Value() int {
 	return m.A * m.B
 }
 
-func ReadMultiplies(indexes [][]int, input string) ([]Multiply, error) {
+func ReadMultiplies(indexes [][]int, input string, doDontEnable bool) ([]Multiply, error) {
 	multiplies := make([]Multiply, 0)
+
+	care := true
+
+indexesLoop:
 	for _, index := range indexes {
 		v := input[index[0]:index[1]]
 
-		m, err := MultiplyFromString(v)
-		if err != nil {
-			return nil, err
+		switch v {
+		case DontFlag:
+			care = false
+			continue indexesLoop
+		case DoFlag:
+			care = true
+			continue indexesLoop
 		}
 
-		multiplies = append(multiplies, *m)
+		if care || !doDontEnable {
+			m, err := MultiplyFromString(v)
+			if err != nil {
+				return nil, err
+			}
+
+			multiplies = append(multiplies, *m)
+		}
 	}
 	return multiplies, nil
 }
