@@ -1,7 +1,6 @@
 package day19
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -40,30 +39,4 @@ func Replacements(replacements []Replacement, data string) []string {
 	}
 
 	return with
-}
-
-func Tokens(replacements []Replacement, data string) []string {
-	tokens := []string{
-		data,
-	}
-
-	reduceReplacement := map[string]struct{}{}
-	for _, replacement := range replacements {
-		reduceReplacement[replacement.X] = struct{}{}
-	}
-
-	fmt.Println(reduceReplacement)
-
-	for item, _ := range reduceReplacement {
-		final := []string{}
-
-		for _, token := range tokens {
-			items := strings.Split(token, item)
-			final = append(final, items...)
-		}
-
-		tokens = final
-	}
-
-	return tokens
 }

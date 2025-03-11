@@ -13,6 +13,31 @@ func TestReadInputTest(t *testing.T) {
 	rp, dna := Parse(data)
 	t.Log(rp, dna)
 
-	tokens := Tokens(rp, dna)
-	t.Log(tokens)
+	t.Log(Diffs(rp, dna))
+}
+
+func TestReadInputPuzzle(t *testing.T) {
+	data, err := ReadInput("input_puzzle.txt")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
+	t.Log(data)
+
+	rp, dna := Parse(data)
+	t.Log(rp, dna)
+
+	t.Log(Diffs(rp, dna))
+}
+
+func TestFindSubstringFromIndex(t *testing.T) {
+	index := FindSubstringFromIndex("HOH", "H", 0)
+	t.Log(index)
+	index = FindSubstringFromIndex("HOH", "H", index+1)
+	t.Log(index)
+
+	newStr := ReplaceSubstringAt("HOH", "H", "HO", 0)
+	t.Log(newStr)
+	newStr = ReplaceSubstringAt("HOH", "H", "HO", 2)
+	t.Log(newStr)
 }
