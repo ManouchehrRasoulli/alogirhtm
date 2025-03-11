@@ -1,18 +1,21 @@
 package day1
 
-import "testing"
+import (
+	"testing"
+)
 
-func TestInit(t *testing.T) {
-	t.Log("initiated ...")
+func Test_MinimumDifference(t *testing.T) {
+	t.Log("minimum difference ...")
 
-	t.Log(sources)
-	t.Log(syncs)
+	readInput()
 
-	totalDiff := int64(0)
+	t.Log(minDiff(sources, syncs))
+}
 
-	for i := 0; i < len(sources); i++ {
-		totalDiff += diff(sources[i], syncs[i])
-	}
+func Test_SimilarityScore(t *testing.T) {
+	t.Log("similarity score ...")
 
-	t.Log(totalDiff)
+	readInput()
+
+	t.Log(similarityScore(sources, syncs))
 }

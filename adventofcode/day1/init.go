@@ -2,7 +2,6 @@ package day1
 
 import (
 	_ "embed"
-	"slices"
 	"strconv"
 	"strings"
 )
@@ -15,7 +14,7 @@ var (
 	syncs   []int64
 )
 
-func init() {
+func readInput() {
 	sources = make([]int64, 0)
 	syncs = make([]int64, 0)
 
@@ -28,7 +27,4 @@ func init() {
 		sources = append(sources, source)
 		syncs = append(syncs, sync)
 	}
-
-	slices.Sort(sources)
-	slices.Sort(syncs)
 }
