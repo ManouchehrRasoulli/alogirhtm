@@ -29,14 +29,3 @@ func Parse(input string) ([]Replacement, string) {
 
 	return replacements, data
 }
-
-func Replacements(replacements []Replacement, data string) []string {
-	with := make([]string, 0)
-	for _, replacement := range replacements {
-		if replacement.X == data {
-			with = append(with, replacement.With)
-		}
-	}
-
-	return with
-}

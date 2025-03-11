@@ -41,3 +41,23 @@ func TestFindSubstringFromIndex(t *testing.T) {
 	newStr = ReplaceSubstringAt("HOH", "H", "HO", 2)
 	t.Log(newStr)
 }
+
+func TestReduceTest(t *testing.T) {
+	data, err := ReadInput("input_test_part2.txt")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
+	rp, dna := Parse(data)
+	t.Log(Reduce(rp, dna, "e"))
+}
+
+func TestReducePuzzle(t *testing.T) {
+	data, err := ReadInput("input_puzzle_part2.txt")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
+	rp, dna := Parse(data)
+	t.Log(Reduce(rp, dna, "e"))
+}

@@ -49,3 +49,31 @@ func Diffs(replacements []Replacement, data string) int {
 
 	return len(saw)
 }
+
+func Reduce(replacements []Replacement, data, target string) int {
+	reverseMap := make(map[string]string)
+	for _, replacement := range replacements {
+		reverseMap[replacement.With] = replacement.X
+	}
+
+	steps := 0
+
+	log.Printf("%+v\n", reverseMap)
+	for data != target {
+		replaced := false
+		for to, from := range reverseMap {
+			if strings.Contains(data, to) {
+				data = strings.Replace(data, to, from, 1)
+				steps++
+				replaced = true
+				break
+			}
+		}
+
+		if !replaced {
+			break
+		}
+	}
+
+	return steps
+}
