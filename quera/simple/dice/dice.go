@@ -11,14 +11,14 @@ func main() {
 	var x string
 	_, err := fmt.Scanln(&x)
 	if err != nil {
-		log.Println("got error reading input", err)
+		log.Println("got error reading input.txt", err)
 		os.Exit(-1)
 	}
 
 	var num int
 	num, err = strconv.Atoi(x)
 	if err != nil {
-		log.Println("non integer input", err, x)
+		log.Println("non integer input.txt", err, x)
 		os.Exit(-1)
 	}
 

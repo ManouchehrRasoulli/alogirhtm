@@ -12,13 +12,13 @@ function sizeToNumber(size) {
     let c = 0;
     for (let i = 0; i < size.length - 1; i++) {
         if (vX.get(size[i]) === undefined) {
-            return null; // invalid input
+            return null; // invalid input.txt
         }
 
         c = vX.get(size[i]) + c;
     }
 
-    if (vT.get(size[size.length - 1]) === undefined || size[size.length - 1] === 'm' && c !== 0) { // invalid input
+    if (vT.get(size[size.length - 1]) === undefined || size[size.length - 1] === 'm' && c !== 0) { // invalid input.txt
         return null;
     }
 

@@ -1,5 +1,5 @@
 // determinant
-// input m :: matrix
+// input.txt m :: matrix
 function determinant(m) {
     if (m.length === 1) {
         return m[0][0];

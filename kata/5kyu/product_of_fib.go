@@ -25,7 +25,7 @@ func fibX(x int) uint64 {
 }
 
 func ProductFib(prod uint64) [3]uint64 {
-	fmt.Println("--> input: ", prod)
+	fmt.Println("--> input.txt: ", prod)
 	var (
 		x, y        = 0, 1
 		p    uint64 = 0

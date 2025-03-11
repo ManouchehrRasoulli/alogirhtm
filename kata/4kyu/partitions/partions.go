@@ -71,7 +71,7 @@ func parts(nums []int) {
 
 func Part(n int) string {
 	// your code
-	fmt.Printf("input number: %d\n", n)
+	fmt.Printf("input.txt number: %d\n", n)
 
 	prod = make(map[int]struct{}, 0)
 	alreadyComputed = make(map[string]struct{})

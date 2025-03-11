@@ -21,7 +21,7 @@ func repairSequence(arr []int) []int {
 		return arr
 	}
 
-	fmt.Printf("input :: {%s}\n", joinInts(arr, ","))
+	fmt.Printf("input.txt :: {%s}\n", joinInts(arr, ","))
 
 	commonDifference := make(map[int]int)
 

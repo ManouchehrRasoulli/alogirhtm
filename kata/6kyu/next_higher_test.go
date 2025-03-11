@@ -8,7 +8,7 @@ import (
 /*
 Your task is to find the next higher number (int) with the same number of '1'- Bits.
 
-I.e. as many 1 bits as before and output next higher than input. Input is always an int between 1 and 1<<30 (possibly inclusive). No bad cases or special tricks...
+I.e. as many 1 bits as before and output next higher than input.txt. Input is always an int between 1 and 1<<30 (possibly inclusive). No bad cases or special tricks...
 
 Some easy examples:
 Input: 129  => Output: 130 (10000001 => 10000010)
