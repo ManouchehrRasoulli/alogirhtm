@@ -36,5 +36,23 @@ func TestValidCodesPuzzleCodes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	t.Log(ValidCodes(reader))
+	t.Log(ValidCodes(reader)) // 379
+}
+
+func TestValidCodesWithToleranceTestCodes(t *testing.T) {
+	reader, err := Read("input_test.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(ValidCodesWithTolerance(reader)) // 4
+}
+
+func TestValidCodesWithTolerancePuzzleCodes(t *testing.T) {
+	reader, err := Read("input_puzzle.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(ValidCodesWithTolerance(reader)) // 430
 }

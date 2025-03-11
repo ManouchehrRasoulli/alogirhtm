@@ -42,6 +42,20 @@ func isIncreasingOrDecreasingByMaxFactor(codes []int, maxFactor int) bool {
 	return true
 }
 
+func isIncreasingOrDecreasingByMaxFactorByOne(codes []int, maxFactor int) bool {
+	for i := range codes {
+		modifiedSeq := append([]int{}, codes[:i]...)      // Copy first part
+		modifiedSeq = append(modifiedSeq, codes[i+1:]...) // Add second part
+
+		if isIncreasingOrDecreasingByMaxFactor(modifiedSeq, maxFactor) {
+			// there is a valid sequence by removing one item
+			return true
+		}
+	}
+
+	return false
+}
+
 func ValidCodes(reader func() (string, error)) (validCodes int) {
 	for {
 		line, err := reader()
@@ -62,5 +76,32 @@ func ValidCodes(reader func() (string, error)) (validCodes int) {
 		}
 
 		log.Println(codesInt, isValidCodeSequence)
+	}
+}
+
+func ValidCodesWithTolerance(reader func() (string, error)) (validCodes int) {
+	for {
+		line, err := reader()
+		if err != nil {
+			return validCodes
+		}
+
+		codes := strings.Split(line, " ")
+		codesInt := make([]int, 0)
+		for _, v := range codes {
+			i, _ := strconv.Atoi(v)
+			codesInt = append(codesInt, i)
+		}
+
+		isValidCodeSequence := isIncreasingOrDecreasingByMaxFactorByOne(codesInt, 3)
+		if isValidCodeSequence {
+			validCodes++
+		}
+
+		isValid := "invalid"
+		if isValidCodeSequence {
+			isValid = "valid"
+		}
+		log.Println(codesInt, isValid)
 	}
 }
