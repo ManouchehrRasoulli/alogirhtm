@@ -11,6 +11,25 @@ type Direction struct {
 	y int
 }
 
+func (d Direction) Get() (int, int) {
+	return d.x, d.y
+}
+
+var (
+	CharToDirection = map[string]Direction{
+		"^": Top,
+		"v": Bottom,
+		">": Right,
+		"<": Left,
+	}
+	DirectionToChar = map[Direction]string{
+		Top:    "^",
+		Bottom: "v",
+		Right:  ">",
+		Left:   "<",
+	}
+)
+
 var (
 	Top = Direction{
 		x: -1,

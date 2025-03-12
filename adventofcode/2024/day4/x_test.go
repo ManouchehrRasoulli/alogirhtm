@@ -6,6 +6,10 @@ import (
 	"testing"
 )
 
+func TestDirectionToChar(t *testing.T) {
+	t.Log(DirectionToChar[Top])
+}
+
 func TestParseInput(t *testing.T) {
 	r, err := helper.Read("input_test_part1.txt")
 	if err != nil {
