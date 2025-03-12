@@ -1,6 +1,7 @@
 package day5
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -10,12 +11,33 @@ type Rule struct {
 	Item       int
 }
 
+type Cause struct {
+	JIndex int
+	JValue int
+	IIndex int
+	IValue int
+}
+
+func (c Cause) String() string {
+	return fmt.Sprintf("%d: %d proceede %d: %d", c.JIndex, c.JValue, c.IIndex, c.IValue)
+}
+
 type Update struct {
 	Items   []int
 	IsValid bool
 
 	// if invalid because of rule
-	Cause []string
+	Cause []Cause
+}
+
+func (u Update) ItemIndex(item int) int {
+	for i, value := range u.Items {
+		if item == value {
+			return i
+		}
+	}
+
+	return -1
 }
 
 func Parse(input string) ([]Rule, []Update) {
@@ -38,7 +60,7 @@ func Parse(input string) ([]Rule, []Update) {
 			update := Update{
 				Items:   nil,
 				IsValid: true,
-				Cause:   make([]string, 0),
+				Cause:   make([]Cause, 0),
 			}
 
 			items := strings.Split(line, ",")

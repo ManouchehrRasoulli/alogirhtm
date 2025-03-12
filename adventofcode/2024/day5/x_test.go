@@ -15,13 +15,27 @@ func TestInputTestPart1(t *testing.T) {
 	rules, updates := Parse(data)
 
 	precedenceMap := CreatePrecedenceMap(rules)
+	log.Println(precedenceMap)
+
 	Interpret(precedenceMap, updates)
 
 	for _, update := range updates {
 		log.Println(update)
 	}
 
-	t.Log(ValidSum(updates)) // 143
+	first := ValidSum(updates)
+	t.Log(first) // 143
+
+	log.Println("fixing...")
+
+	Fix(updates, precedenceMap)
+	Interpret(precedenceMap, updates)
+	for _, update := range updates {
+		log.Println(update)
+	}
+
+	second := ValidSum(updates)
+	t.Log(second - first) // 123
 }
 
 func TestInputPuzzlePart1(t *testing.T) {
@@ -39,5 +53,17 @@ func TestInputPuzzlePart1(t *testing.T) {
 		log.Println(update)
 	}
 
-	t.Log(ValidSum(updates)) // 6505
+	first := ValidSum(updates)
+	t.Log(first) // 6505
+
+	log.Println("fixing...")
+
+	Fix(updates, precedenceMap)
+	Interpret(precedenceMap, updates)
+	for _, update := range updates {
+		log.Println(update)
+	}
+
+	second := ValidSum(updates)
+	t.Log(second - first) // 6897
 }
