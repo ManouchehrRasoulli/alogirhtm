@@ -61,7 +61,7 @@ func TestFindPatternTestInputPart1(t *testing.T) {
 	}
 
 	input := ParseInput(r)
-	t.Log(FindPattern(input)) // 18
+	t.Log(FindPatternConstant(input)) // 18
 }
 
 func TestFindPatternPuzzleInputPart1(t *testing.T) {
@@ -71,5 +71,37 @@ func TestFindPatternPuzzleInputPart1(t *testing.T) {
 	}
 
 	input := ParseInput(r)
-	t.Log(FindPattern(input)) // 2370
+	t.Log(FindPatternConstant(input)) // 2370
+}
+
+func TestMatrix1Snippet(t *testing.T) {
+	r, err := helper.Read("input_test_part1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	input := ParseInput(r)
+	data := strings.Join(Matrix1Snippet(input, 1, 2), "")
+	t.Log(data) // MMSSAMMXS
+	t.Log(masDownLeft.Match([]byte(data)))
+}
+
+func TestFindPatternTestInputPart2(t *testing.T) {
+	r, err := helper.Read("input_test_part1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	input := ParseInput(r)
+	t.Log(FindPattern(input)) // 9
+}
+
+func TestFindPatternPuzzleInputPart2(t *testing.T) {
+	r, err := helper.Read("input_puzzle_part1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	input := ParseInput(r)
+	t.Log(FindPattern(input)) // 1908
 }
