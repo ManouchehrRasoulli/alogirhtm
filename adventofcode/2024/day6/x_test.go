@@ -52,6 +52,10 @@ func TestParseTestInputPart2(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	simpleGuardRoom, simpleGuard := ParseRoomWithSimpleGuard(data)
+	for simpleGuard.Move(simpleGuardRoom) {
+	}
+
 	room, guard := ParseRoomWithCircuitGuard(data)
 	t.Log(room)
 	t.Log(guard)
@@ -68,11 +72,15 @@ func TestParsePuzzleInputPart2(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	simpleGuardRoom, simpleGuard := ParseRoomWithSimpleGuard(data)
+	for simpleGuard.Move(simpleGuardRoom) {
+	}
+
 	room, guard := ParseRoomWithCircuitGuard(data)
 	t.Log(room)
 	t.Log(guard)
 
-	log.Println(guard.CountCircuits(room))
+	log.Println(guard.CountCircuits(room)) // 1919
 
 	t.Log(room)
 	t.Log(guard)
