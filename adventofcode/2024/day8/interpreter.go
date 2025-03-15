@@ -73,10 +73,10 @@ func (c *City) PlaceAntiNotesOnMap() {
 			continue
 		}
 
-		if c.Field[location.Y][location.X] == '.' {
-			c.Field[location.Y][location.X] = '#'
+		if c.Field[location.X][location.Y] == '.' {
+			c.Field[location.X][location.Y] = '#'
 		} else {
-			c.Field[location.Y][location.X] = '$' // jam collied with another antenna
+			c.Field[location.X][location.Y] = '$' // jam collied with another antenna
 		}
 	}
 }
