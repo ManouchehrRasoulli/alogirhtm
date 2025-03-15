@@ -74,7 +74,7 @@ func (i *Island) TrailheadScoresSumPart1() int {
 
 	log.Println("Trailhead Score ::")
 	for trailhead, _ := range i.trailheads {
-		score := i.Bfs(trailhead)
+		score := i.BfsUniqueHeal(trailhead)
 		log.Println(trailhead, score)
 		trailheadScore += score
 	}
@@ -82,7 +82,7 @@ func (i *Island) TrailheadScoresSumPart1() int {
 	return trailheadScore
 }
 
-func (i *Island) Bfs(location Location) int {
+func (i *Island) BfsUniqueHeal(location Location) int {
 	var (
 		trailheadScore      = 0
 		queue               = list.New()
@@ -100,6 +100,48 @@ func (i *Island) Bfs(location Location) int {
 				}
 				trailheadScore++
 				locationHealVisited[neighbor] = struct{}{}
+				continue
+			} else if i.Value(neighbor) == noValue {
+				continue
+			} else if i.Value(neighbor) != i.Value(loc)+1 {
+				continue
+			}
+
+			queue.PushBack(neighbor)
+		}
+	}
+
+	return trailheadScore
+}
+
+func (i *Island) TrailheadScoresSumPart2() int {
+	var (
+		trailheadScore = 0
+	)
+
+	log.Println("Trailhead Score ::")
+	for trailhead, _ := range i.trailheads {
+		score := i.BfsUniquePath(trailhead)
+		log.Println(trailhead, score)
+		trailheadScore += score
+	}
+
+	return trailheadScore
+}
+
+func (i *Island) BfsUniquePath(location Location) int {
+	var (
+		trailheadScore = 0
+		queue          = list.New()
+	)
+
+	queue.PushBack(location)
+	for queue.Len() > 0 {
+		loc := queue.Remove(queue.Front()).(Location)
+		neighbors := i.Neighbors(loc)
+		for _, neighbor := range neighbors {
+			if i.Value(neighbor) == maxValue {
+				trailheadScore++
 				continue
 			} else if i.Value(neighbor) == noValue {
 				continue
