@@ -7,7 +7,8 @@ import (
 
 func ParseStone(data string) *Stones {
 	s := Stones{
-		numbers: make([]int, 0),
+		numbers:      make([]int, 0),
+		numbersCount: make(map[int]int),
 	}
 
 	for _, line := range strings.Split(data, "\n") {
