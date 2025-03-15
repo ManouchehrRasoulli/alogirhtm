@@ -35,7 +35,7 @@ type City struct {
 	AntiNodes map[Location][]AntiNode
 }
 
-func (c *City) CalculateAntiNodes() {
+func (c *City) CalculateAntiNodesPart1() {
 	for _, antennas := range c.Antennas {
 		for i := 0; i < len(antennas); i++ {
 			for j := i + 1; j < len(antennas); j++ {
@@ -46,8 +46,30 @@ func (c *City) CalculateAntiNodes() {
 					Antennas: fmt.Sprintf("%s -> %s", antennas[i].String(), antennas[j].String()),
 				})
 				c.AntiNodes[jTiAntiNode] = append(c.AntiNodes[jTiAntiNode], AntiNode{
-					Antennas: fmt.Sprintf("%s -> %s", antennas[i].String(), antennas[j].String()),
+					Antennas: fmt.Sprintf("%s -> %s", antennas[j].String(), antennas[i].String()),
 				})
+			}
+		}
+	}
+}
+
+func (c *City) CalculateAntiNodesPart2() {
+	for _, antennas := range c.Antennas {
+		for i := 0; i < len(antennas); i++ {
+			for j := i + 1; j < len(antennas); j++ {
+				iTjAntiNodes := AntiNodeLocations(antennas[i].Location, antennas[j].Location, len(c.Field))
+				jTiAntiNodes := AntiNodeLocations(antennas[j].Location, antennas[i].Location, len(c.Field))
+
+				for _, location := range iTjAntiNodes {
+					c.AntiNodes[location] = append(c.AntiNodes[location], AntiNode{
+						Antennas: fmt.Sprintf("%s -> %s", antennas[i].String(), antennas[j].String()),
+					})
+				}
+				for _, location := range jTiAntiNodes {
+					c.AntiNodes[location] = append(c.AntiNodes[location], AntiNode{
+						Antennas: fmt.Sprintf("%s -> %s", antennas[j].String(), antennas[i].String()),
+					})
+				}
 			}
 		}
 	}
@@ -106,6 +128,20 @@ func (c *City) String() string {
 	}
 
 	return field
+}
+
+func AntiNodeLocations(a, b Location, step int) []Location {
+	dv := DirectionVector(b, a)
+	locations := make([]Location, 0)
+
+	for i := 0; i <= step; i++ {
+		locations = append(locations, Location{
+			X: a.X + i*dv.X,
+			Y: a.Y + i*dv.Y,
+		})
+	}
+
+	return locations
 }
 
 // AntiNodeLocation

@@ -66,7 +66,7 @@ func TestInputTestPart1(t *testing.T) {
 	city := ParseCityPart1(data)
 	log.Println(city)
 
-	city.CalculateAntiNodes()
+	city.CalculateAntiNodesPart1()
 
 	log.Println(city)
 
@@ -86,7 +86,7 @@ func TestInputPuzzlePart1(t *testing.T) {
 	city := ParseCityPart1(data)
 	log.Println(city)
 
-	city.CalculateAntiNodes()
+	city.CalculateAntiNodesPart1()
 
 	log.Println(city)
 
@@ -95,4 +95,44 @@ func TestInputPuzzlePart1(t *testing.T) {
 	city.PlaceAntiNotesOnMap()
 
 	log.Println(city)
+}
+
+func TestInputTestPart2(t *testing.T) {
+	data, err := helper.ReadAll("input_test_part1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	city := ParseCityPart1(data)
+	log.Println(city)
+
+	city.CalculateAntiNodesPart2()
+
+	log.Println(city)
+
+	log.Println(city.AntiNodeCount()) // 34
+
+	city.PlaceAntiNotesOnMap()
+
+	log.Println(city)
+}
+
+func TestInputPuzzlePart2(t *testing.T) {
+	data, err := helper.ReadAll("input_puzzle_part1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	city := ParseCityPart1(data)
+	log.Println(city)
+
+	city.CalculateAntiNodesPart2()
+
+	log.Println(city)
+
+	log.Println(city.AntiNodeCount()) // 1293
+
+	// city.PlaceAntiNotesOnMap()
+
+	// log.Println(city)
 }
