@@ -2,7 +2,6 @@ package helper
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -16,14 +15,18 @@ func Read(path string) (func() (string, error), error) {
 
 	scanner := bufio.NewScanner(file)
 	return func() (string, error) {
-		scanner.Scan()
-		line, scannerErr := scanner.Text(), scanner.Err()
-		if scannerErr != nil || line == "" {
-			if scannerErr == io.EOF {
-				_ = file.Close()
-			}
+		if !scanner.Scan() {
+			_ = file.Close()
 
-			return "", fmt.Errorf("end")
+			return "", io.EOF
+		}
+
+		var line string
+		line, err = scanner.Text(), scanner.Err()
+		if err != nil {
+			_ = file.Close()
+
+			return "", err
 		}
 
 		return line, nil
