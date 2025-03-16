@@ -85,3 +85,43 @@ func TestEquationPuzzlePart1(t *testing.T) {
 
 	t.Log(tokens) // 37686
 }
+
+func TestEquationTestPart2(t *testing.T) {
+	data, err := helper.ReadAll("input.test1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	equations := ParseEquations(data)
+	tokens := 0
+
+	for _, eq := range equations {
+		t.Log(eq)
+		a, b := eq.SolvePart2()
+		if a > 0 && b > 0 {
+			tokens += a*3 + b
+		}
+	}
+
+	t.Log(tokens) // 875318608908
+}
+
+func TestEquationPuzzlePart2(t *testing.T) {
+	data, err := helper.ReadAll("input.puzzle")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	equations := ParseEquations(data)
+	tokens := 0
+
+	for _, eq := range equations {
+		t.Log(eq)
+		a, b := eq.SolvePart2()
+		if a > 0 && b > 0 {
+			tokens += a*3 + b
+		}
+	}
+
+	t.Log(tokens) // 77204516023437
+}
