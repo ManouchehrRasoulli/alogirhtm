@@ -15,6 +15,14 @@ func (d Direction) Get() (int, int) {
 	return d.x, d.y
 }
 
+func (d Direction) X() int {
+	return d.x
+}
+
+func (d Direction) Y() int {
+	return d.y
+}
+
 var (
 	CharToDirection = map[string]Direction{
 		"^": Top,
