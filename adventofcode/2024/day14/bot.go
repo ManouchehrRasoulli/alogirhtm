@@ -143,7 +143,15 @@ func (f *Field) String() string {
 	data := "\n"
 
 	for _, row := range f.matrix {
-		data += fmt.Sprintf("%v\n", row)
+		for _, cell := range row {
+			if cell > 0 {
+				// data += fmt.Sprintf("%d", cell)
+				data += "*"
+			} else {
+				data += "."
+			}
+		}
+		data += "\n"
 	}
 
 	data += "\n"
