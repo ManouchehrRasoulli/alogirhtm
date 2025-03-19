@@ -3,7 +3,7 @@ package day12
 import (
 	"container/list"
 	"fmt"
-	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/day4"
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 	"log"
 )
 
@@ -12,11 +12,11 @@ const (
 )
 
 var (
-	directions = []day4.Direction{
-		day4.Left,
-		day4.Right,
-		day4.Top,
-		day4.Bottom,
+	directions = []helper.Direction{
+		helper.Left,
+		helper.Right,
+		helper.Top,
+		helper.Bottom,
 	}
 )
 
@@ -203,7 +203,7 @@ func (g *Garden) Neighbours(location Location) []Location {
 func (g *Garden) AllNeighbours(location Location) []Location {
 	ngs := make([]Location, 0)
 
-	for _, d := range day4.AlDirections {
+	for _, d := range helper.AllDirections {
 		ng := Location{
 			x: location.x + d.X(),
 			y: location.y + d.Y(),
