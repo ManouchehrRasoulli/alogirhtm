@@ -2,17 +2,17 @@ package day6
 
 import (
 	"fmt"
-	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/day4"
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 )
 
 type CircuitGuard struct {
 	id                string
 	x, y              int
-	direction         day4.Direction
+	direction         helper.Direction
 	locationDirection map[string]struct{} // if i am in location with same direction then i am in a circle !
 
 	startX, startY int
-	startDirection day4.Direction
+	startDirection helper.Direction
 }
 
 func (g *CircuitGuard) Reset() {
@@ -22,19 +22,19 @@ func (g *CircuitGuard) Reset() {
 }
 
 func (g *CircuitGuard) String() string {
-	return fmt.Sprintf("(%d,%d) -> %s", g.x, g.y, day4.DirectionToChar[g.direction])
+	return fmt.Sprintf("(%d,%d) -> %s", g.x, g.y, string(helper.DirectionToChar[g.direction]))
 }
 
 func (g *CircuitGuard) ChangeToRight() {
 	switch g.direction {
-	case day4.Top:
-		g.direction = day4.Right
-	case day4.Right:
-		g.direction = day4.Bottom
-	case day4.Bottom:
-		g.direction = day4.Left
-	case day4.Left:
-		g.direction = day4.Top
+	case helper.Top:
+		g.direction = helper.Right
+	case helper.Right:
+		g.direction = helper.Bottom
+	case helper.Bottom:
+		g.direction = helper.Left
+	case helper.Left:
+		g.direction = helper.Top
 	}
 }
 

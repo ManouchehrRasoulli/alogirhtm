@@ -1,9 +1,7 @@
 package day6
 
-import "strings"
-
 type Room struct {
-	ground [][]string
+	ground [][]rune
 }
 
 func (r *Room) WithinBound(x, y int) bool {
@@ -19,19 +17,19 @@ func (r *Room) Size() (int, int) {
 }
 
 func (r *Room) MakeObstacle(x, y int) {
-	r.Change(x, y, "#")
+	r.Change(x, y, '#')
 }
 
 func (r *Room) MakeFree(x, y int) {
-	r.Change(x, y, ".")
+	r.Change(x, y, '.')
 }
 
-func (r *Room) Change(x, y int, char string) {
+func (r *Room) Change(x, y int, char rune) {
 	r.ground[x][y] = char
 }
 
 func (r *Room) CanIMoveTo(x, y int) bool {
-	if r.ground[x][y] == "#" {
+	if r.ground[x][y] == '#' {
 		return false
 	}
 
@@ -46,7 +44,9 @@ func (r *Room) String() string {
 	s += "\n"
 
 	for _, row := range r.ground {
-		s += strings.Join(row, "")
+		for _, char := range row {
+			s += string(char)
+		}
 		s += "\n"
 	}
 

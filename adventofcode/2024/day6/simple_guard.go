@@ -2,30 +2,30 @@ package day6
 
 import (
 	"fmt"
-	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/day4"
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 )
 
 type SimpleGuard struct {
 	id        string
 	x, y      int
-	direction day4.Direction
+	direction helper.Direction
 	locations map[string]struct{}
 }
 
 func (g *SimpleGuard) String() string {
-	return fmt.Sprintf("(%d,%d) -> %s", g.x, g.y, day4.DirectionToChar[g.direction])
+	return fmt.Sprintf("(%d,%d) -> %s", g.x, g.y, string(helper.DirectionToChar[g.direction]))
 }
 
 func (g *SimpleGuard) ChangeToRight() {
 	switch g.direction {
-	case day4.Top:
-		g.direction = day4.Right
-	case day4.Right:
-		g.direction = day4.Bottom
-	case day4.Bottom:
-		g.direction = day4.Left
-	case day4.Left:
-		g.direction = day4.Top
+	case helper.Top:
+		g.direction = helper.Right
+	case helper.Right:
+		g.direction = helper.Bottom
+	case helper.Bottom:
+		g.direction = helper.Left
+	case helper.Left:
+		g.direction = helper.Top
 	}
 }
 
@@ -51,7 +51,7 @@ func (g *SimpleGuard) Move(room *Room) bool {
 	if room.CanIMoveTo(nextX, nextY) {
 		g.locations[LocationToString(g.x, g.y)] = struct{}{}
 		g.x, g.y = nextX, nextY
-		room.Change(g.x, g.y, day4.DirectionToChar[g.direction])
+		room.Change(g.x, g.y, helper.DirectionToChar[g.direction])
 	} else {
 		g.ChangeToRight()
 		return g.Move(room)
