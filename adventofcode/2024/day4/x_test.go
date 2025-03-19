@@ -7,7 +7,7 @@ import (
 )
 
 func TestDirectionToChar(t *testing.T) {
-	t.Log(DirectionToChar[Top])
+	t.Log(string(helper.DirectionToChar[helper.Top]))
 }
 
 func TestParseInput(t *testing.T) {
@@ -27,16 +27,16 @@ func TestReadUpToXInDirection(t *testing.T) {
 	}
 
 	input := ParseInput(r)
-	characters := ReadUpToXInDirection(4, 4, TopLeft, 4, input)
+	characters := ReadUpToXInDirection(4, 4, helper.TopLeft, 4, input)
 	t.Log(strings.Join(characters, "")) // AMXS
 
-	characters = ReadUpToXInDirection(4, 4, TopLeft, 10, input)
+	characters = ReadUpToXInDirection(4, 4, helper.TopLeft, 10, input)
 	t.Log(strings.Join(characters, "")) // AMXSM
 
-	characters = ReadUpToXInDirection(4, 4, BottomRight, 10, input)
+	characters = ReadUpToXInDirection(4, 4, helper.BottomRight, 10, input)
 	t.Log(strings.Join(characters, "")) // AXSAMX
 
-	characters = ReadUpToXInDirection(0, 0, BottomRight, 10, input)
+	characters = ReadUpToXInDirection(0, 0, helper.BottomRight, 10, input)
 	t.Log(strings.Join(characters, "")) // MSXMAXSAMX
 }
 

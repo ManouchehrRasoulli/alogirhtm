@@ -1,81 +1,13 @@
 package day4
 
 import (
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 	"log"
 	"regexp"
 	"strings"
 )
 
-type Direction struct {
-	x int
-	y int
-}
-
-func (d Direction) Get() (int, int) {
-	return d.x, d.y
-}
-
-func (d Direction) X() int {
-	return d.x
-}
-
-func (d Direction) Y() int {
-	return d.y
-}
-
-var (
-	CharToDirection = map[string]Direction{
-		"^": Top,
-		"v": Bottom,
-		">": Right,
-		"<": Left,
-	}
-	DirectionToChar = map[Direction]string{
-		Top:    "^",
-		Bottom: "v",
-		Right:  ">",
-		Left:   "<",
-	}
-)
-
-var (
-	Top = Direction{
-		x: -1,
-		y: 0,
-	}
-	Bottom = Direction{
-		x: 1,
-		y: 0,
-	}
-	Left = Direction{
-		x: 0,
-		y: -1,
-	}
-	Right = Direction{
-		x: 0,
-		y: 1,
-	}
-	TopLeft = Direction{
-		x: -1,
-		y: -1,
-	}
-	TopRight = Direction{
-		x: -1,
-		y: 1,
-	}
-	BottomLeft = Direction{
-		x: 1,
-		y: -1,
-	}
-	BottomRight = Direction{
-		x: 1,
-		y: 1,
-	}
-
-	AlDirections = []Direction{TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight}
-)
-
-func ReadUpToXInDirection(x, y int, direction Direction, n int, matrix [][]string) []string {
+func ReadUpToXInDirection(x, y int, direction helper.Direction, n int, matrix [][]string) []string {
 	if n == 0 {
 		return []string{}
 	}
@@ -85,7 +17,7 @@ func ReadUpToXInDirection(x, y int, direction Direction, n int, matrix [][]strin
 	}
 
 	return append([]string{matrix[x][y]},
-		ReadUpToXInDirection(x+direction.x, y+direction.y, direction, n-1, matrix)...)
+		ReadUpToXInDirection(x+direction.X(), y+direction.Y(), direction, n-1, matrix)...)
 }
 
 const (
@@ -96,7 +28,7 @@ const (
 func Neighbors(matrix [][]string, x, y int, n int) [][]string {
 	ngs := make([][]string, 0)
 
-	for _, direction := range AlDirections {
+	for _, direction := range helper.AllDirections {
 		ngData := ReadUpToXInDirection(x, y, direction, n, matrix)
 		if len(ngData) < n {
 			continue
@@ -135,15 +67,15 @@ func Matrix1Snippet(matrix [][]string, x, y int) []string {
 	}
 
 	return []string{
-		ReadUpToXInDirection(TopLeft.x+x, TopLeft.y+y, TopLeft, 1, matrix)[0],
-		ReadUpToXInDirection(Top.x+x, Top.y+y, Top, 1, matrix)[0],
-		ReadUpToXInDirection(TopRight.x+x, TopRight.y+y, TopRight, 1, matrix)[0],
-		ReadUpToXInDirection(Left.x+x, Left.y+y, Left, 1, matrix)[0],
+		ReadUpToXInDirection(helper.TopLeft.X()+x, helper.TopLeft.Y()+y, helper.TopLeft, 1, matrix)[0],
+		ReadUpToXInDirection(helper.Top.X()+x, helper.Top.Y()+y, helper.Top, 1, matrix)[0],
+		ReadUpToXInDirection(helper.TopRight.X()+x, helper.TopRight.Y()+y, helper.TopRight, 1, matrix)[0],
+		ReadUpToXInDirection(helper.Left.X()+x, helper.Left.Y()+y, helper.Left, 1, matrix)[0],
 		matrix[x][y],
-		ReadUpToXInDirection(Right.x+x, Right.y+y, Right, 1, matrix)[0],
-		ReadUpToXInDirection(BottomLeft.x+x, BottomLeft.y+y, BottomLeft, 1, matrix)[0],
-		ReadUpToXInDirection(Bottom.x+x, Bottom.y+y, Bottom, 1, matrix)[0],
-		ReadUpToXInDirection(BottomRight.x+x, BottomRight.y+y, BottomRight, 1, matrix)[0],
+		ReadUpToXInDirection(helper.Right.X()+x, helper.Right.Y()+y, helper.Right, 1, matrix)[0],
+		ReadUpToXInDirection(helper.BottomLeft.X()+x, helper.BottomLeft.Y()+y, helper.BottomLeft, 1, matrix)[0],
+		ReadUpToXInDirection(helper.Bottom.X()+x, helper.Bottom.Y()+y, helper.Bottom, 1, matrix)[0],
+		ReadUpToXInDirection(helper.BottomRight.X()+x, helper.BottomRight.Y()+y, helper.BottomRight, 1, matrix)[0],
 	}
 }
 
