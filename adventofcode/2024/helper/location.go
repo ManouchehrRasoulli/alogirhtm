@@ -14,6 +14,27 @@ func NewLocation(x int, y int) *Location {
 	}
 }
 
+func (l *Location) Compare(other *Location) int {
+	if l.x < other.x {
+		return -1
+	}
+
+	if l.x > other.x {
+		return 1
+	}
+
+	if l.y < other.y {
+		return -1
+	}
+
+	if l.y > other.y {
+		return 1
+	}
+
+	// equal
+	return 0
+}
+
 func (l *Location) Get() (int, int) {
 	return l.x, l.y
 }
