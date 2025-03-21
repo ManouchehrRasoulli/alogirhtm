@@ -12,15 +12,20 @@ var (
 
 func ReadPc(data string) *Pc {
 	pc := Pc{
-		pc:           0,
-		registers:    [3]int{0, 0, 0},
-		instructions: make([]Instruction, 0),
+		oldPc:             0,
+		pc:                0,
+		oldRegisters:      [3]int{0, 0, 0},
+		registers:         [3]int{0, 0, 0},
+		instructionString: []string{},
+		instructions:      make([]Instruction, 0),
+		outputs:           nil,
 	}
 
 	lines := strings.Split(data, "\n")
 	for i, line := range lines {
 		if i < 3 { // register data
 			rawData := numberRegex.FindAllString(line, -1)[0]
+			pc.oldRegisters[i], _ = strconv.Atoi(rawData)
 			pc.registers[i], _ = strconv.Atoi(rawData)
 
 			continue
@@ -35,6 +40,7 @@ func ReadPc(data string) *Pc {
 			opcode, _ := strconv.Atoi(instructions[j])
 			combo, _ := strconv.Atoi(instructions[j+1])
 
+			pc.instructionString = append(pc.instructionString, instructions[j], instructions[j+1])
 			pc.instructions = append(pc.instructions, InstructionFromCode(Opcode(opcode), Combo(combo)))
 		}
 	}

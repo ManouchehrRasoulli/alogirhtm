@@ -57,7 +57,7 @@ func InstructionFromCode(code Opcode, combo Combo) Instruction {
 		}
 	case BxlInstruction:
 		return Bxl{
-			combo: combo,
+			literal: int(combo),
 		}
 	case BstInstruction:
 		return Bst{
@@ -65,7 +65,7 @@ func InstructionFromCode(code Opcode, combo Combo) Instruction {
 		}
 	case JnzInstruction:
 		return Jnz{
-			combo: combo,
+			literal: int(combo),
 		}
 	case BxcInstruction:
 		return Bxc{
@@ -103,17 +103,17 @@ func (a Adv) String() string {
 }
 
 type Bxl struct {
-	combo Combo
+	literal int
 }
 
 func (b Bxl) Execute(pc int, registers *[3]int) (npc int, output int) {
 	npc = pc + 1
-	registers[RegisterB] ^= int(b.combo)
+	registers[RegisterB] ^= b.literal
 	return npc, NoValue
 }
 
 func (b Bxl) String() string {
-	return fmt.Sprintf("Bxl(%d,%d)", BxlInstruction, b.combo)
+	return fmt.Sprintf("Bxl(%d,%d)", BxlInstruction, b.literal)
 }
 
 type Bst struct {
@@ -131,7 +131,7 @@ func (b Bst) String() string {
 }
 
 type Jnz struct {
-	combo Combo
+	literal int
 }
 
 func (j Jnz) Execute(pc int, registers *[3]int) (npc int, output int) {
@@ -140,11 +140,11 @@ func (j Jnz) Execute(pc int, registers *[3]int) (npc int, output int) {
 		return npc, NoValue
 	}
 
-	return int(j.combo / 2), NoValue // jump into the instruction location
+	return j.literal / 2, NoValue // jump into the instruction location
 }
 
 func (j Jnz) String() string {
-	return fmt.Sprintf("Jnz(%d,%d)", JnzInstruction, j.combo)
+	return fmt.Sprintf("Jnz(%d,%d)", JnzInstruction, j.literal)
 }
 
 type Bxc struct {

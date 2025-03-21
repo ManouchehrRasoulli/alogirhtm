@@ -4,14 +4,24 @@ import (
 	"fmt"
 	"log"
 	"runtime/debug"
+	"slices"
 	"strings"
 )
 
 type Pc struct {
-	pc           int
-	registers    [3]int
-	instructions []Instruction
-	outputs      []string
+	oldPc             int
+	pc                int
+	oldRegisters      [3]int
+	registers         [3]int
+	instructionString []string
+	instructions      []Instruction
+	outputs           []string
+}
+
+func (pc *Pc) Reset() {
+	pc.pc = pc.oldPc
+	pc.registers = pc.oldRegisters
+	pc.outputs = nil
 }
 
 func (pc *Pc) String() string {
@@ -50,8 +60,38 @@ func (pc *Pc) Execute() {
 			pc.outputs = append(pc.outputs, fmt.Sprintf("%d", output))
 		}
 	}
+}
 
-	log.Printf("pc: %d, outputs: %+v, run: %d\n", pc.pc, pc.outputs, run)
+func (pc *Pc) FindRegisterAValue() int {
+	var (
+		a = 0
+		d = 1
+	)
+
+	for {
+		pc.Reset()
+		pc.registers[RegisterA] = a
+
+		pc.Execute()
+
+		oc := len(pc.outputs)
+		ic := len(pc.instructionString)
+
+		if slices.Equal(pc.instructionString, pc.outputs) || oc > ic {
+			break
+		}
+
+		if oc-d >= 0 && ic-d >= 0 &&
+			pc.outputs[oc-d] == pc.instructionString[ic-d] &&
+			(d < 2 || pc.outputs[oc-d+1] == pc.instructionString[ic-d+1]) {
+			d++ // if each of these instructions matched then we can move into next instruction output match and shift a with 3 bits
+			a <<= 3
+		} else {
+			a++
+		}
+	}
+
+	return a
 }
 
 func (pc *Pc) LogOutputs() {
