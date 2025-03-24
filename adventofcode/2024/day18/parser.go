@@ -1,9 +1,27 @@
 package day18
 
 import (
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 	"strconv"
 	"strings"
 )
+
+func ReadLocations(data string) []*helper.Location {
+	var (
+		location = make([]*helper.Location, 0)
+	)
+
+	lines := strings.Split(data, "\n")
+	for _, line := range lines {
+		lineData := strings.Split(line, ",")
+		y, _ := strconv.Atoi(lineData[0])
+		x, _ := strconv.Atoi(lineData[1])
+
+		location = append(location, helper.NewLocation(x, y))
+	}
+
+	return location
+}
 
 func ReadPuzzle(data string, count int, row, col int) *Puzzle {
 	lines := strings.Split(data, "\n")
@@ -28,10 +46,10 @@ func ReadPuzzle(data string, count int, row, col int) *Puzzle {
 		}
 
 		lineData := strings.Split(line, ",")
-		x, _ := strconv.Atoi(lineData[0])
-		y, _ := strconv.Atoi(lineData[1])
+		y, _ := strconv.Atoi(lineData[0])
+		x, _ := strconv.Atoi(lineData[1])
 
-		p.grid[y][x] = usedSpace
+		p.grid[x][y] = usedSpace
 	}
 
 	return &p

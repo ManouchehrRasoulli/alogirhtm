@@ -3,7 +3,6 @@ package day18
 import (
 	"container/list"
 	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
-	"log"
 )
 
 const (
@@ -33,7 +32,6 @@ func (p *Puzzle) Value(x, y int) rune {
 
 func (p *Puzzle) WriteValue(x, y int, value rune) {
 	if p.Value(x, y) == usedSpace {
-		log.Println("write into used space !!", x, y, " ", string(value))
 		return
 	}
 
@@ -63,7 +61,48 @@ func (p *Puzzle) PathCount() int {
 	return count
 }
 
-func (p *Puzzle) Bfs() {
+func (p *Puzzle) Bfs() bool {
+	var (
+		visited = make(map[helper.Location]struct{})
+		queue   = list.New()
+		end     = helper.NewLocation(p.row, p.col)
+		found   = false
+	)
+
+	queue.PushBack(helper.NewLocation(0, 0))
+	for queue.Len() > 0 {
+		current := queue.Remove(queue.Front()).(*helper.Location)
+
+		if _, ok := visited[*current]; ok {
+			continue
+		}
+		visited[*current] = struct{}{}
+
+		if current.Compare(end) == 0 {
+			found = true
+			break
+		}
+
+		if p.Value(current.Get()) == usedSpace {
+			continue
+		}
+
+		for _, dir := range helper.PathDirections {
+			ng := current.Move(dir)
+			if p.Value(ng.Get()) == usedSpace {
+				continue
+			} else if _, ok := visited[*ng]; ok {
+				continue
+			}
+
+			queue.PushBack(ng)
+		}
+	}
+
+	return found
+}
+
+func (p *Puzzle) BfsWithPath() bool {
 	var (
 		visited = make(map[helper.Location]struct{})
 		queue   = list.New()
@@ -72,6 +111,7 @@ func (p *Puzzle) Bfs() {
 			locations: make([]*helper.Location, 0),
 			current:   helper.NewLocation(0, 0),
 		}
+		found = false
 	)
 
 	queue.PushBack(path)
@@ -85,7 +125,7 @@ func (p *Puzzle) Bfs() {
 		visited[*currentPath.current] = struct{}{}
 
 		if currentPath.current.Compare(end) == 0 {
-			// not a valid location
+			found = true
 			p.MarkPath(currentPath.locations)
 			break
 		}
@@ -111,6 +151,8 @@ func (p *Puzzle) Bfs() {
 			queue.PushBack(ngPath)
 		}
 	}
+
+	return found
 }
 
 func (p *Puzzle) String() string {
