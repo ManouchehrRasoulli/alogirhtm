@@ -13,7 +13,7 @@ const (
 )
 
 type locationPath struct {
-	locations []helper.Location
+	locations []*helper.Location
 	current   *helper.Location
 }
 
@@ -40,7 +40,7 @@ func (p *Puzzle) WriteValue(x, y int, value rune) {
 	p.grid[x][y] = value
 }
 
-func (p *Puzzle) MarkPath(path []helper.Location) {
+func (p *Puzzle) MarkPath(path []*helper.Location) {
 	for _, l := range path {
 		x, y := l.Get()
 		p.WriteValue(x, y, trialSpace)
@@ -69,7 +69,7 @@ func (p *Puzzle) Bfs() {
 		queue   = list.New()
 		end     = helper.NewLocation(p.row, p.col)
 		path    = locationPath{
-			locations: make([]helper.Location, 0),
+			locations: make([]*helper.Location, 0),
 			current:   helper.NewLocation(0, 0),
 		}
 	)
@@ -77,13 +77,12 @@ func (p *Puzzle) Bfs() {
 	queue.PushBack(path)
 	for queue.Len() > 0 {
 		currentPath := queue.Remove(queue.Front()).(locationPath)
+		currentPath.locations = append(currentPath.locations, currentPath.current)
 
 		if _, ok := visited[*currentPath.current]; ok {
 			continue
 		}
 		visited[*currentPath.current] = struct{}{}
-
-		currentPath.locations = append(currentPath.locations, *currentPath.current)
 
 		if currentPath.current.Compare(end) == 0 {
 			// not a valid location
@@ -104,9 +103,10 @@ func (p *Puzzle) Bfs() {
 			}
 
 			ngPath := locationPath{
-				locations: currentPath.locations,
+				locations: make([]*helper.Location, len(currentPath.locations)),
 				current:   ng,
 			}
+			copy(ngPath.locations, currentPath.locations)
 
 			queue.PushBack(ngPath)
 		}
