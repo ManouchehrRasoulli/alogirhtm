@@ -20,7 +20,8 @@ func NaiveMatch(input string, patters []string) bool {
 
 func Match(input string, patterns []string) bool {
 	var (
-		n               = len(input)
+		n = len(input)
+		// use dp inorder to decrease runtime
 		checkedSequence = make([]bool, n+1)
 	)
 	checkedSequence[0] = true // the first case means that the zero len sequence is matched
@@ -31,6 +32,25 @@ func Match(input string, patterns []string) bool {
 			patternLen := len(pattern)
 			if i >= patternLen && input[i-patternLen:i] == pattern {
 				checkedSequence[i] = checkedSequence[i] || checkedSequence[i-patternLen]
+			}
+		}
+	}
+
+	return checkedSequence[n]
+}
+
+func MatchCount(input string, patterns []string) int {
+	var (
+		n               = len(input)
+		checkedSequence = make([]int, n+1)
+	)
+	checkedSequence[0] = 1
+
+	for i := 1; i < n+1; i++ {
+		for _, pattern := range patterns {
+			patternLen := len(pattern)
+			if i >= patternLen && input[i-patternLen:i] == pattern {
+				checkedSequence[i] += checkedSequence[i-patternLen]
 			}
 		}
 	}
