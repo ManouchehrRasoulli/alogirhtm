@@ -66,5 +66,6 @@ var (
 		y: 1,
 	}
 
-	AllDirections = []Direction{TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight}
+	AllDirections  = []Direction{TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight}
+	PathDirections = []Direction{Top, Right, Bottom, Left}
 )
