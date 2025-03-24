@@ -5,6 +5,25 @@ import (
 	"testing"
 )
 
+func TestInputTest1Part1Naive(t *testing.T) {
+	data, err := helper.ReadAll("test1.part1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	patterns, towels := ParseInput(data)
+
+	matchCount := 0
+	for _, towel := range towels {
+		if NaiveMatch(towel, patterns) {
+			matchCount++
+			t.Log(towel)
+		}
+	}
+
+	t.Log(matchCount) // 6
+}
+
 func TestInputTest1Part1(t *testing.T) {
 	data, err := helper.ReadAll("test1.part1")
 	if err != nil {

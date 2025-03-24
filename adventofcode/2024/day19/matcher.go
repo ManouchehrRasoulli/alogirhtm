@@ -1,5 +1,23 @@
 package day19
 
+import "strings"
+
+func NaiveMatch(input string, patters []string) bool {
+	if len(input) == 0 {
+		return true
+	}
+
+	for _, pattern := range patters {
+		if strings.HasPrefix(input, pattern) {
+			if NaiveMatch(input[len(pattern):], patters) {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func Match(input string, patterns []string) bool {
 	var (
 		n               = len(input)
