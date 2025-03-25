@@ -20,9 +20,9 @@ func TestInputTest1Part1(t *testing.T) {
 
 	cheats := puzzle.CalculateCheats()
 	total := 0
-	for saving, count := range cheats {
+	for saving, cheatCount := range cheats {
 		if saving >= 8 { // at-least saved us 8 picoseconds
-			total += count
+			total += cheatCount
 		}
 	}
 
@@ -45,9 +45,9 @@ func TestInputPuzzlePart1(t *testing.T) {
 
 	cheats := puzzle.CalculateCheats()
 	total := 0
-	for saving, count := range cheats {
+	for saving, cheatCount := range cheats {
 		if saving >= 100 { // at-least saved us 100 picoseconds
-			total += count
+			total += cheatCount
 		}
 	}
 
