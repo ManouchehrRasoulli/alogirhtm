@@ -48,6 +48,40 @@ func pathIndex(location []*helper.Location, item *helper.Location) int {
 	return notFound
 }
 
+func (p *Puzzle) CalculateCheatsWith20Picoseconds() map[int]int {
+	if len(p.path) == 0 {
+		log.Fatal("not path to calculate cheats")
+	}
+
+	var (
+		// indicate picoseconds saves to number of cheats
+		cheats = make(map[int]int)
+		cost   = len(p.path) - 1
+	)
+
+	for i, p1 := range p.path {
+		for j, p2 := range p.path {
+			if j <= i {
+				continue
+			}
+
+			distance := p1.Distance(p2)
+			if distance > 20 {
+				continue
+			}
+
+			saving := cost - (i + (cost - j) + distance)
+			if saving < 50 {
+				continue
+			}
+
+			cheats[saving] += 1
+		}
+	}
+
+	return cheats
+}
+
 // CalculateCheats
 // this function after running bfs with finding path
 func (p *Puzzle) CalculateCheats() map[int]int {

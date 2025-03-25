@@ -1,6 +1,9 @@
 package helper
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type Location struct {
 	x int
@@ -33,6 +36,10 @@ func (l *Location) Compare(other *Location) int {
 
 	// equal
 	return 0
+}
+
+func (l *Location) Distance(other *Location) int {
+	return int(math.Abs(float64(l.x-other.x)) + math.Abs(float64(l.y-other.y)))
 }
 
 func (l *Location) Get() (int, int) {
