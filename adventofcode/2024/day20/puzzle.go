@@ -13,6 +13,7 @@ const (
 	trialSpace    = '*' // path which we found
 	startLocation = 'S'
 	endLocation   = 'E'
+	notFound      = -1
 )
 
 type locationPath struct {
@@ -35,6 +36,53 @@ func (p *Puzzle) Value(x, y int) rune {
 	}
 
 	return p.grid[x][y]
+}
+
+func pathIndex(location []*helper.Location, item *helper.Location) int {
+	for i, loc := range location {
+		if loc.Compare(item) == 0 {
+			return i
+		}
+	}
+
+	return notFound
+}
+
+// CalculateCheats
+// this function after running bfs with finding path
+func (p *Puzzle) CalculateCheats() map[int]int {
+	if len(p.path) == 0 {
+		log.Fatal("not path to calculate cheats, first run the bfs algorithm")
+	}
+
+	var (
+		// indicate picoseconds saves to number of cheats
+		cheats = make(map[int]int)
+	)
+
+	for i, location := range p.path {
+		for _, direction := range helper.PathDirections {
+			ngFirst := location.Move(direction)
+			if p.Value(ngFirst.Get()) != usedSpace {
+				continue
+			}
+
+			ngSecond := ngFirst.Move(direction)
+			if p.Value(ngSecond.Get()) == usedSpace {
+				continue
+			}
+
+			j := pathIndex(p.path, ngSecond)
+			if j < i {
+				continue
+			}
+
+			// -2 for excluding the location 1 and 2
+			cheats[j-i-2]++
+		}
+	}
+
+	return cheats
 }
 
 func (p *Puzzle) WriteValue(x, y int, value rune) {
@@ -77,6 +125,7 @@ func (p *Puzzle) BfsWithPath() bool {
 
 		if currentPath.current.Compare(end) == 0 {
 			found = true
+			path = currentPath
 			p.MarkPath(currentPath.locations)
 			break
 		}
