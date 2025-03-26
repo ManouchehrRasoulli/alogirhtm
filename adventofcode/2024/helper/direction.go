@@ -69,3 +69,15 @@ var (
 	AllDirections  = []Direction{TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight}
 	PathDirections = []Direction{Top, Right, Bottom, Left}
 )
+
+func AddUpDirectionToChar(count int, direction Direction) []rune {
+	var (
+		chars = make([]rune, 0)
+	)
+
+	for i := 0; i < count; i++ {
+		chars = append(chars, DirectionToChar[direction])
+	}
+
+	return chars
+}

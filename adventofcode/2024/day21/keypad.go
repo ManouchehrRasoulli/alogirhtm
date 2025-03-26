@@ -1,6 +1,9 @@
 package day21
 
-import "github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
+import (
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
+	"log"
+)
 
 const (
 	invalidLocation = '!'
@@ -30,7 +33,16 @@ func NewKeypad(sequence string) *Keypad {
 }
 
 func (k *Keypad) ValueLocation(value rune) *helper.Location {
-	panic("not implemented")
+	for i, row := range pad {
+		for j, col := range row {
+			if col == value {
+				return helper.NewLocation(i, j)
+			}
+		}
+	}
+
+	log.Fatal("looking for invalid character at keypad !!", string(value), k.sequence)
+	return nil
 }
 
 func (k *Keypad) Value(location *helper.Location) rune {
@@ -49,6 +61,7 @@ func (k *Keypad) Value(location *helper.Location) rune {
 func (k *Keypad) PathFromAtoB(a *helper.Location, b *helper.Location) []rune {
 	// this sequence will find the path from position a to b
 	var (
+		direction           = make([]rune, 0)
 		ax, ay              = a.Get()
 		bx, by              = b.Get()
 		upDirectionCount    = 0
@@ -73,5 +86,10 @@ func (k *Keypad) PathFromAtoB(a *helper.Location, b *helper.Location) []rune {
 		}
 	}
 
-	panic("not implemented yet !")
+	direction = append(direction, helper.AddUpDirectionToChar(upDirectionCount, helper.Top)...)
+	direction = append(direction, helper.AddUpDirectionToChar(rightDirectionCount, helper.Right)...)
+	direction = append(direction, helper.AddUpDirectionToChar(downDirectionCount, helper.Bottom)...)
+	direction = append(direction, helper.AddUpDirectionToChar(leftDirectionCount, helper.Left)...)
+
+	return direction
 }
