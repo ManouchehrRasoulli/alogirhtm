@@ -1,101 +1,84 @@
 package day21
 
 import (
-	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2024/helper"
 	"log"
 )
 
-const (
-	invalidLocation = '!'
-	noValue         = ' '
-	confirm         = 'A'
+var (
+	keyPad = map[rune]map[rune][]rune{
+		'A': {'A': {}, '^': {'<'}, '>': {'v'}, 'v': {'<', 'v'}, '<': {'v', '<', '<'}},
+		'^': {'^': {}, 'A': {'>'}, '>': {'v', '>'}, 'v': {'v'}, '<': {'v', '<'}},
+		'<': {'<': {}, 'v': {'>'}, '^': {'>', '^'}, '>': {'>', '>'}, 'A': {'>', '>', '^'}},
+		'v': {'v': {}, '<': {'<'}, '>': {'>'}, '^': {'^'}, 'A': {'^', '>'}},
+		'>': {'>': {}, 'A': {'^'}, '^': {'<', '^'}, 'v': {'<'}, '<': {'<', '<'}}}
 )
 
-var (
-	pad = [][]rune{
-		{'7', '8', '9'},
-		{'4', '5', '6'},
-		{'1', '2', '3'},
-		{' ', '0', 'A'},
+type Option func(k *Keypad)
+
+func WithKeyPad(sequence string) Option {
+	return func(k *Keypad) {
+		keypad := NewKeypad(WithNumPad(sequence))
+		k.keyPad = keypad
 	}
-)
+}
+
+func WithNumPad(sequence string) Option {
+	return func(k *Keypad) {
+		numpad := NewNumpad(sequence)
+		k.numPad = numpad
+	}
+}
 
 type Keypad struct {
-	sequence string
+	numPad *Numpad // have other numpad or other keypad
+	keyPad *Keypad
 }
 
-func NewKeypad(sequence string) *Keypad {
-	sequence = string(confirm) + sequence // start from `A` and finish with `A`
-	return &Keypad{
-		sequence: sequence,
-	}
-}
+func NewKeypad(options ...Option) *Keypad {
+	k := Keypad{}
 
-func (k *Keypad) valueLocation(value rune) *helper.Location {
-	for i, row := range pad {
-		for j, col := range row {
-			if col == value {
-				return helper.NewLocation(i, j)
-			}
-		}
+	for _, opt := range options {
+		opt(&k)
 	}
 
-	log.Fatal("looking for invalid character at keypad !!", string(value), k.sequence)
-	return nil
+	if k.keyPad == nil && k.numPad == nil {
+		log.Fatal("one option required !!")
+	}
+
+	if k.keyPad != nil && k.numPad != nil {
+		log.Fatal("only one option is valid !!")
+	}
+
+	return &k
 }
 
-func (k *Keypad) pathFromAtoB(a *helper.Location, b *helper.Location) []rune {
-	// this sequence will find the path from position a to b
+func (k *Keypad) KeyToDirections() []rune {
 	var (
-		direction           = make([]rune, 0)
-		ax, ay              = a.Get()
-		bx, by              = b.Get()
-		upDirectionCount    = 0
-		rightDirectionCount = 0
-		downDirectionCount  = 0
-		leftDirectionCount  = 0
+		path         = make([]rune, 0)
+		internalPath = make([]rune, 1)
 	)
 
-	if ax != bx {
-		if ax < bx {
-			downDirectionCount += bx - ax
-		} else {
-			upDirectionCount += ax - bx
-		}
+	internalPath[0] = confirm
+
+	if k.keyPad != nil {
+		internalPath = append(internalPath, k.keyPad.KeyToDirections()...)
+	} else if k.numPad != nil {
+		internalPath = append(internalPath, k.numPad.NumsToDirections()...)
 	}
 
-	if ay != by {
-		if ay < by {
-			rightDirectionCount += by - ay
-		} else {
-			leftDirectionCount += ay - by
-		}
-	}
+	log.Println("keypad compute directions ::", string(internalPath))
 
-	direction = append(direction, helper.AddUpDirectionToChar(leftDirectionCount, helper.Left)...)
-	direction = append(direction, helper.AddUpDirectionToChar(rightDirectionCount, helper.Right)...)
-	direction = append(direction, helper.AddUpDirectionToChar(downDirectionCount, helper.Bottom)...)
-	direction = append(direction, helper.AddUpDirectionToChar(upDirectionCount, helper.Top)...)
-
-	return direction
-}
-
-func (k *Keypad) CharToDirections() []rune {
-	var (
-		path = make([]rune, 0)
-	)
-
-	log.Println("keypad compute directions ::", k.sequence)
-
-	for i := 1; i < len(k.sequence); i++ {
-		ac, bc := k.sequence[i-1], k.sequence[i]
-		al, bl := k.valueLocation(rune(ac)), k.valueLocation(rune(bc))
-		log.Println(string(ac), al, string(bc), bl)
-
-		direction := k.pathFromAtoB(al, bl)
-		path = append(path, direction...)
+	for i := 1; i < len(internalPath); i++ {
+		ac, bc := internalPath[i-1], internalPath[i]
+		path = append(path, keypadPathFromAtoB(ac, bc)...)
 		path = append(path, confirm)
 	}
 
+	log.Println("keypad output ::", string(path))
+
 	return path
+}
+
+func keypadPathFromAtoB(a rune, b rune) []rune {
+	return keyPad[a][b]
 }
