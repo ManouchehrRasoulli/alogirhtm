@@ -17,8 +17,8 @@ func TestInputTest1Part1(t *testing.T) {
 	lines := strings.Split(input, "\n")
 	for _, line := range lines {
 		keypad := NewKeypad(WithKeyPad(line))
-		output := keypad.KeyToDirections()
-		final += ComputeValues(line, output)
+		_, outputs := keypad.KeyToDirections()
+		final += ComputeValues(line, outputs)
 	}
 
 	t.Log(final) // 126384
@@ -35,8 +35,8 @@ func TestInputPuzzlePart1(t *testing.T) {
 	lines := strings.Split(input, "\n")
 	for _, line := range lines {
 		keypad := NewKeypad(WithKeyPad(line))
-		output := keypad.KeyToDirections()
-		final += ComputeValues(line, output)
+		_, outputs := keypad.KeyToDirections()
+		final += ComputeValues(line, outputs)
 	}
 
 	t.Log(final) // (133834, 141162) // (actual -- 137870)

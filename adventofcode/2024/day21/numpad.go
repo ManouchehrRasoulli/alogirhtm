@@ -1,13 +1,16 @@
 package day21
 
 import (
-	"log"
-	"strings"
+	"fmt"
 )
 
 const (
 	noValue = ' '
 	confirm = 'A'
+)
+
+var (
+	cache = make(map[string][][]rune)
 )
 
 var (
@@ -73,35 +76,94 @@ type Numpad struct {
 }
 
 func NewNumpad(nums string) *Numpad {
-	nums = string(confirm) + nums // start from `A` and finish with `A`
-	if !strings.HasSuffix(nums, string(confirm)) {
-		nums += string(confirm)
-	}
-
 	return &Numpad{
 		nums: nums,
 	}
 }
 
-func (n *Numpad) NumsToDirections() []rune {
+func (n *Numpad) NumsToDirections() (string, [][]rune) {
 	var (
-		path = make([]rune, 0)
+		paths = make([][]rune, 0)
 	)
 
-	log.Println("numpad compute directions ::", n.nums)
-
-	for i := 1; i < len(n.nums); i++ {
-		ac, bc := n.nums[i-1], n.nums[i]
-		direction := numpadPathFromAtoB(rune(ac), rune(bc))
-		path = append(path, direction...)
-		path = append(path, confirm)
+	nums := string(confirm) + n.nums
+	for i := 1; i < len(nums); i++ {
+		ac, bc := nums[i-1], nums[i]
+		directions := numpadPathsFromAtoB(rune(ac), rune(bc))
+		paths = cartesianProduct(paths, directions)
 	}
 
-	log.Println("numpad output ::", string(path))
-
-	return path
+	return n.nums, paths
 }
 
-func numpadPathFromAtoB(a rune, b rune) []rune {
-	return numPad[a][b]
+func cartesianProduct(first [][]rune, second [][]rune) [][]rune {
+	cartesian := make([][]rune, 0)
+
+	if len(first) == 0 {
+		for _, b := range second {
+			items := make([]rune, 0)
+			items = append(items, b...)
+			items = append(items, confirm)
+			cartesian = append(cartesian, items)
+		}
+
+		return cartesian
+	}
+
+	if len(second) == 0 {
+		for _, a := range first {
+			items := make([]rune, 0)
+			items = append(items, a...)
+			items = append(items, confirm)
+			cartesian = append(cartesian, items)
+		}
+
+		return cartesian
+	}
+
+	for _, a := range first {
+		for _, b := range second {
+			items := make([]rune, 0)
+			items = append(items, a...)
+			items = append(items, b...)
+			items = append(items, confirm)
+			cartesian = append(cartesian, items)
+		}
+	}
+
+	return cartesian
+}
+
+func numpadPathsFromAtoB(a rune, b rune) [][]rune {
+	var (
+		key    = fmt.Sprintf("%s-%s", string(a), string(b))
+		runes  = numPad[a][b]
+		perms  = make([][]rune, 0)
+		result = make(map[string]struct{})
+	)
+
+	if v, ok := cache[key]; ok {
+		return v
+	}
+
+	permute(runes, 0, len(runes)-1, result)
+	for k, _ := range result {
+		perms = append(perms, []rune(k))
+	}
+
+	cache[key] = perms
+
+	return perms
+}
+
+func permute(runes []rune, left int, right int, result map[string]struct{}) {
+	if left == right {
+		result[string(runes)] = struct{}{}
+	} else {
+		for i := left; i <= right; i++ {
+			runes[left], runes[i] = runes[i], runes[left]
+			permute(runes, left+1, right, result)
+			runes[left], runes[i] = runes[i], runes[left]
+		}
+	}
 }

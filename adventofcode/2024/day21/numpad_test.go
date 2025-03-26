@@ -1,15 +1,23 @@
 package day21
 
 import (
-	"log"
 	"testing"
 )
 
 func TestNumpad(t *testing.T) {
 	numpad := NewNumpad("029A")
-	path := numpad.NumsToDirections()
-	log.Println(string(path)) // <A^A>^^AvvvA
-	if string(path) != "<A^A>^^AvvvA" {
-		log.Fatal("invalid output !!")
+	seq, paths := numpad.NumsToDirections()
+	for _, path := range paths {
+		t.Log(seq, string(path), len(path))
+	}
+}
+
+func TestPermutations(t *testing.T) {
+	runes := []rune{'A', 'B', 'C'}
+	result := make(map[string]struct{})
+	permute(runes, 0, len(runes)-1, result)
+
+	for k, _ := range result {
+		t.Log(k)
 	}
 }

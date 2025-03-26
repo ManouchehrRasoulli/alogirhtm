@@ -1,7 +1,7 @@
 package day21
 
 import (
-	"log"
+	"math"
 	"regexp"
 	"strconv"
 )
@@ -10,11 +10,16 @@ var (
 	numberRegex = regexp.MustCompile(`[0-9]+`)
 )
 
-func ComputeValues(sequence string, finalPath []rune) int {
+func ComputeValues(sequence string, finalPath [][]rune) int {
 	numStr := numberRegex.FindAllString(sequence, 1)[0]
 	num, _ := strconv.Atoi(numStr)
 
-	log.Println("----", num, sequence, len(finalPath))
+	minLen := math.MaxInt
+	for _, v := range finalPath {
+		if len(v) < minLen {
+			minLen = len(v)
+		}
+	}
 
-	return num * (len(finalPath))
+	return num * minLen
 }

@@ -1,7 +1,9 @@
 package day21
 
 import (
+	"fmt"
 	"log"
+	"math"
 )
 
 var (
@@ -52,33 +54,73 @@ func NewKeypad(options ...Option) *Keypad {
 	return &k
 }
 
-func (k *Keypad) KeyToDirections() []rune {
+func (k *Keypad) KeyToDirections() (string, [][]rune) {
 	var (
-		path         = make([]rune, 0)
-		internalPath = make([]rune, 1)
+		subPaths      = make([][]rune, 0)
+		paths         = make([][]rune, 0)
+		computedPaths = make(map[string]struct{})
+		seq           string
+		minLen        = math.MaxInt
 	)
 
-	internalPath[0] = confirm
-
 	if k.keyPad != nil {
-		internalPath = append(internalPath, k.keyPad.KeyToDirections()...)
+		seq, subPaths = k.keyPad.KeyToDirections()
 	} else if k.numPad != nil {
-		internalPath = append(internalPath, k.numPad.NumsToDirections()...)
+		seq, subPaths = k.numPad.NumsToDirections()
 	}
 
-	log.Println("keypad compute directions ::", string(internalPath))
-
-	for i := 1; i < len(internalPath); i++ {
-		ac, bc := internalPath[i-1], internalPath[i]
-		path = append(path, keypadPathFromAtoB(ac, bc)...)
-		path = append(path, confirm)
+	for _, subPath := range subPaths {
+		ip := make([]rune, 0)
+		ip = append(ip, confirm)
+		ip = append(ip, subPath...)
+		paths = append(paths, ip)
 	}
 
-	log.Println("keypad output ::", string(path))
+	for _, path := range paths {
+		internalPaths := make([][]rune, 0)
+		for i := 1; i < len(path); i++ {
+			ac, bc := path[i-1], path[i]
+			directions := keypadPathFromAtoB(ac, bc)
+			internalPaths = cartesianProduct(internalPaths, directions)
+		}
 
-	return path
+		for _, internalPath := range internalPaths {
+			computedPaths[string(internalPath)] = struct{}{}
+		}
+	}
+
+	final := make([][]rune, 0)
+	for key, _ := range computedPaths {
+		if len(key) < minLen {
+			final = make([][]rune, 0)
+			minLen = len(key)
+			final = append(final, []rune(key))
+		} else if len(key) == minLen {
+			final = append(final, []rune(key))
+		}
+	}
+
+	return seq, final
 }
 
-func keypadPathFromAtoB(a rune, b rune) []rune {
-	return keyPad[a][b]
+func keypadPathFromAtoB(a rune, b rune) [][]rune {
+	var (
+		key    = fmt.Sprintf("%s-%s", string(a), string(b))
+		runes  = keyPad[a][b]
+		perms  = make([][]rune, 0)
+		result = make(map[string]struct{})
+	)
+
+	if v, ok := cache[key]; ok {
+		return v
+	}
+
+	permute(runes, 0, len(runes)-1, result)
+	for k, _ := range result {
+		perms = append(perms, []rune(k))
+	}
+
+	cache[key] = perms
+
+	return perms
 }
