@@ -38,3 +38,35 @@ func TestInputPuzzlePart1(t *testing.T) {
 
 	t.Log(part1(numbers)) // 19927218456
 }
+
+func TestInputTest1Part2(t *testing.T) {
+	data, err := helper.ReadAll("test1.part1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	numbers := make([]int, 0)
+	lines := strings.Split(data, "\n")
+	for _, line := range lines {
+		num, _ := strconv.Atoi(line)
+		numbers = append(numbers, num)
+	}
+
+	t.Log(part2(numbers)) // 23
+}
+
+func TestInputPuzzlePart2(t *testing.T) {
+	data, err := helper.ReadAll("puzzle.part1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	numbers := make([]int, 0)
+	lines := strings.Split(data, "\n")
+	for _, line := range lines {
+		num, _ := strconv.Atoi(line)
+		numbers = append(numbers, num)
+	}
+
+	t.Log(part2(numbers)) // 2189
+}
