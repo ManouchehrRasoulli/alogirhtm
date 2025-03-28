@@ -65,3 +65,56 @@ func (l *Lan) ChiefComputerTriples() int {
 
 	return len(uniqueTriples)
 }
+
+func (l *Lan) LargestClique() string {
+	var (
+		cliques   = l.cliques()
+		maxClique = make([]string, 0)
+	)
+
+	for _, clique := range cliques {
+		if len(clique) > len(maxClique) {
+			maxClique = clique
+		}
+	}
+
+	slices.Sort(maxClique)
+	return strings.Join(maxClique, ",")
+}
+
+func (l *Lan) cliques() [][]string {
+	var (
+		maxClique  = make([][]string, 0)
+		candidates = make([]string, 0)
+	)
+
+	for k, _ := range l.computers {
+		candidates = append(candidates, k)
+	}
+
+	dfs(l.computers, []string{}, candidates, &maxClique)
+
+	return maxClique
+}
+
+func dfs(graph map[string]map[string]struct{}, currentClique []string, candidates []string, maxClique *[][]string) {
+	if len(candidates) == 0 {
+		*maxClique = append(*maxClique, currentClique)
+		return
+	}
+
+	for i, v := range candidates {
+		var (
+			newClique     = append(currentClique, v)
+			newCandidates = make([]string, 0)
+		)
+
+		for _, c := range candidates[i+1:] {
+			if _, ok := graph[v][c]; ok {
+				newCandidates = append(newCandidates, c)
+			}
+		}
+
+		dfs(graph, newClique, newCandidates, maxClique)
+	}
+}
