@@ -49,11 +49,11 @@ func (l *Lan) ChiefComputerTriples() int {
 	for cp1, _ := range l.computers {
 		for cp2, _ := range l.computers[cp1] {
 			for cp3, _ := range l.computers[cp2] {
-				triples := []string{cp1, cp2, cp3}
 				if _, ok := l.computers[cp3][cp1]; !ok {
 					continue
 				}
 
+				triples := []string{cp1, cp2, cp3}
 				slices.Sort(triples)
 				triplesStr := strings.Join(triples, ",")
 				if chiefConnectionPattern.MatchString(triplesStr) {
