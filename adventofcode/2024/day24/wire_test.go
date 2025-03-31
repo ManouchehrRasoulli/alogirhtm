@@ -45,3 +45,13 @@ func TestInputSimplePart2(t *testing.T) {
 	lines := strings.Split(string(data), "\n")
 	FixCircuit(lines)
 }
+
+func TestInputTestPart2(t *testing.T) {
+	data, err := helper.ReadAll("test.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+	FixCircuit(lines)
+}

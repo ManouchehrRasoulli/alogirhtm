@@ -105,39 +105,7 @@ func DoOperations(lines []string) int {
 }
 
 func FixCircuit(lines []string) string {
-	var (
-		operations = make([]string, 0)
-		wiresPart  = true
-	)
-
-	for _, line := range lines {
-		if line == "" {
-			wiresPart = false
-			continue
-		}
-
-		if !wiresPart {
-			operations = append(operations, line)
-		}
-	}
-
-	slices.Sort(operations)
-
-	mermaid := "\nflowchart-elk TD\n"
-
-	for i, operation := range operations {
-		m := instructionPattern.FindAllStringSubmatch(operation, -1)
-		if len(m) == 0 {
-			log.Fatalln("Something wrong with the instructionPattern")
-		}
-		a := m[0][1]
-		o := m[0][2]
-		b := m[0][3]
-		c := m[0][4]
-		mermaid += fmt.Sprintf("%s{%s} --> O%d[%s]\n", a, a, i, o)
-		mermaid += fmt.Sprintf("%s{%s} --> O%d[%s]\n", b, b, i, o)
-		mermaid += fmt.Sprintf("O%d[%s] --> %s{%s}\n", i, o, c, c)
-	}
-	fmt.Println(mermaid)
-	return mermaid
+	// have to implement a backtracking method to modify circuit and test if
+	// the output is correct or not
+	panic("not implemented")
 }
