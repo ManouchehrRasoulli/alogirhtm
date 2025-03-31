@@ -35,3 +35,13 @@ func TestInputInputPart1(t *testing.T) {
 	lines := strings.Split(string(data), "\n")
 	t.Log(DoOperations(lines)) // 59619940979346
 }
+
+func TestInputSimplePart2(t *testing.T) {
+	data, err := helper.ReadAll("simple.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+	FixCircuit(lines)
+}
