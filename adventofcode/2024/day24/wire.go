@@ -27,6 +27,10 @@ func DoOperations(lines []string) int {
 		wireParts  = true
 		zWires     = make([]string, 0)
 		zValues    = make([]string, 0)
+		xWires     = make([]string, 0)
+		xValues    = make([]string, 0)
+		yWires     = make([]string, 0)
+		yValues    = make([]string, 0)
 	)
 
 	for _, line := range lines {
@@ -87,6 +91,12 @@ func DoOperations(lines []string) int {
 		if strings.HasPrefix(k, "z") {
 			zWires = append(zWires, k)
 		}
+		if strings.HasPrefix(k, "x") {
+			xWires = append(xWires, k)
+		}
+		if strings.HasPrefix(k, "y") {
+			yWires = append(yWires, k)
+		}
 	}
 
 	slices.Sort(zWires)
@@ -95,11 +105,43 @@ func DoOperations(lines []string) int {
 		zValues = append(zValues, fmt.Sprintf("%d", wires[v]))
 	}
 
+	slices.Sort(xWires)
+	slices.Reverse(xWires)
+	for _, v := range xWires {
+		xValues = append(xValues, fmt.Sprintf("%d", wires[v]))
+	}
+
+	slices.Sort(yWires)
+	slices.Reverse(yWires)
+	for _, v := range yWires {
+		yValues = append(yValues, fmt.Sprintf("%d", wires[v]))
+	}
+
 	zString := strings.Join(zValues, "")
 	zInt, err := strconv.ParseInt(zString, 2, 64)
 	if err != nil {
 		log.Fatal(err, zString)
 	}
+
+	yString := strings.Join(yValues, "")
+	yInt, err := strconv.ParseInt(yString, 2, 64)
+	if err != nil {
+		log.Fatal(err, yString)
+	}
+
+	xString := strings.Join(xValues, "")
+	xInt, err := strconv.ParseInt(xString, 2, 64)
+	if err != nil {
+		log.Fatal(err, xString)
+	}
+
+	expected := xInt + yInt
+	expectedBits := fmt.Sprintf("%b", expected)
+
+	log.Println("x", xString, xInt)
+	log.Println("y", yString, yInt)
+	log.Println("output", zString, zInt)
+	log.Println("expected", expectedBits, expected)
 
 	return int(zInt)
 }
