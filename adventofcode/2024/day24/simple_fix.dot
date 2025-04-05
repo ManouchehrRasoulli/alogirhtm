@@ -1,0 +1,50 @@
+digraph LogicCircuit {
+        x00 [label="x00 = 0", shape=ellipse];
+        y00 [label="y00 = 0", shape=ellipse];
+        z05 [label="z05 = 0", shape=ellipse];
+
+        AND13 [label="AND", shape=box];
+        x00 -> AND13;
+        y00 -> AND13;
+        AND13 -> z05;
+        x01 [label="x01 = 1", shape=ellipse];
+        y01 [label="y01 = 0", shape=ellipse];
+        z02 [label="z02", shape=ellipse];
+
+        AND14 [label="AND", shape=box];
+        x01 -> AND14;
+        y01 -> AND14;
+        AND14 -> z02;
+        x02 [label="x02 = 0", shape=ellipse];
+        y02 [label="y02 = 1", shape=ellipse];
+        z01 [label="z01", shape=ellipse];
+
+        AND15 [label="AND", shape=box];
+        x02 -> AND15;
+        y02 -> AND15;
+        AND15 -> z01;
+        x03 [label="x03 = 1", shape=ellipse];
+        y03 [label="y03 = 1", shape=ellipse];
+        z03 [label="z03 = 1", shape=ellipse];
+
+        AND16 [label="AND", shape=box];
+        x03 -> AND16;
+        y03 -> AND16;
+        AND16 -> z03;
+        x04 [label="x04 = 0", shape=ellipse];
+        y04 [label="y04 = 0", shape=ellipse];
+        z04 [label="z04 = 0", shape=ellipse];
+
+        AND17 [label="AND", shape=box];
+        x04 -> AND17;
+        y04 -> AND17;
+        AND17 -> z04;
+        x05 [label="x05 = 1", shape=ellipse];
+        y05 [label="y05 = 1", shape=ellipse];
+        z00 [label="z00 = 1", shape=ellipse];
+
+        AND18 [label="AND", shape=box];
+        x05 -> AND18;
+        y05 -> AND18;
+        AND18 -> z00;
+        }

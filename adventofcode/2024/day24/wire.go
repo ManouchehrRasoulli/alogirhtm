@@ -145,9 +145,3 @@ func DoOperations(lines []string) int {
 
 	return int(zInt)
 }
-
-func FixCircuit(lines []string) string {
-	// have to implement a backtracking method to modify circuit and test if
-	// the output is correct or not
-	panic("not implemented")
-}

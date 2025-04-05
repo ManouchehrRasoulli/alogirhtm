@@ -37,21 +37,37 @@ func TestInputInputPart1(t *testing.T) {
 }
 
 func TestInputSimplePart2(t *testing.T) {
-	data, err := helper.ReadAll("simple.txt")
+	data, err := helper.ReadAll("simple_fix.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	lines := strings.Split(string(data), "\n")
-	FixCircuit(lines)
+	t.Log(ToDotFormat(lines))
+
+	t.Log(DoOperations(lines)) // 86
 }
 
-func TestInputTestPart2(t *testing.T) {
-	data, err := helper.ReadAll("test.txt")
+func TestInputInputPart2(t *testing.T) {
+	data, err := helper.ReadAll("input.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	lines := strings.Split(string(data), "\n")
-	FixCircuit(lines)
+	t.Log(DoOperations(lines))
+
+	t.Log(ToDotFormat(lines))
+}
+
+func TestInputModifiedPart2(t *testing.T) {
+	data, err := helper.ReadAll("modified.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+	t.Log(DoOperations(lines))
+
+	t.Log(ToDotFormat(lines))
 }
