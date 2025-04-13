@@ -93,3 +93,7 @@ func (g *Game) Match(red, blue, green int) int {
 
 	return g.Id
 }
+
+func (g *Game) Power() int {
+	return g.Red * g.Blue * g.Green
+}

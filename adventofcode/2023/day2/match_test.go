@@ -47,3 +47,45 @@ func TestInputPuzzlePart1(t *testing.T) {
 
 	t.Log(count) // 2285
 }
+
+func TestInputTestPart2(t *testing.T) {
+	data, err := helper.ReadAll("test1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	lines := strings.Split(data, "\n")
+	games := make([]*Game, 0)
+	for _, line := range lines {
+		g := ReadGame(line)
+		games = append(games, g)
+	}
+
+	sum := 0
+	for _, g := range games {
+		sum += g.Power()
+	}
+
+	t.Log(sum) // 2286
+}
+
+func TestInputPuzzlePart2(t *testing.T) {
+	data, err := helper.ReadAll("puzzle.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	lines := strings.Split(data, "\n")
+	games := make([]*Game, 0)
+	for _, line := range lines {
+		g := ReadGame(line)
+		games = append(games, g)
+	}
+
+	sum := 0
+	for _, g := range games {
+		sum += g.Power()
+	}
+
+	t.Log(sum) // 77021
+}
