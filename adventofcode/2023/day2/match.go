@@ -22,7 +22,7 @@ type Game struct {
 
 func ReadGame(line string) *Game {
 	var (
-		re = regexp.MustCompile(`(red|green|blue|\d|;)`)
+		re = regexp.MustCompile(`(red|green|blue|\d+|;)`)
 		g  = Game{
 			Id:     0,
 			Rounds: make([]Round, 0),
@@ -35,7 +35,6 @@ func ReadGame(line string) *Game {
 	)
 
 	items := re.FindAllString(line, -1)
-	log.Println(items)
 	g.Id, err = strconv.Atoi(items[0])
 	if err != nil {
 		log.Fatal(line, err, "game-id")
@@ -70,11 +69,27 @@ func ReadGame(line string) *Game {
 			round.Green = count
 			g.Green = max(g.Green, count)
 		default:
-			log.Fatal(line, "invalid color !", color)
+			log.Fatal(line, " invalid color !", color)
 		}
 
 		i += 2
 	}
 
 	return &g
+}
+
+func (g *Game) Match(red, blue, green int) int {
+	if g.Red > red {
+		return 0
+	}
+
+	if g.Blue > blue {
+		return 0
+	}
+
+	if g.Green > green {
+		return 0
+	}
+
+	return g.Id
 }
