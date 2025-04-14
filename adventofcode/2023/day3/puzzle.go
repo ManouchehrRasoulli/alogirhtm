@@ -9,6 +9,7 @@ import (
 
 const (
 	empty = '.'
+	gear  = '*'
 )
 
 type Puzzle struct {
@@ -148,6 +149,47 @@ func (p *Puzzle) Part1() int {
 			if p.IsAdjacentToSymbol(x, y) {
 				sum += p.NumbersToLeftAndRight(x, y)
 			}
+		}
+	}
+
+	return sum
+}
+
+func (p *Puzzle) ReadNeighborsNumbers(x, y int) []int {
+	var (
+		nums = make([]int, 0)
+	)
+
+	for _, ng := range helper.AllDirections {
+		nx, ny := x+ng.X(), y+ng.Y()
+		nv := p.Value(nx, ny)
+		if nv < '0' || nv > '9' {
+			continue
+		}
+
+		nums = append(nums, p.NumbersToLeftAndRight(nx, ny))
+	}
+
+	return nums
+}
+
+func (p *Puzzle) Part2() int {
+	var (
+		sum = 0
+	)
+
+	for x, row := range p.field {
+		for y, col := range row {
+			if col != gear {
+				continue
+			}
+
+			nums := p.ReadNeighborsNumbers(x, y)
+			if len(nums) != 2 {
+				continue
+			}
+
+			sum += nums[0] * nums[1]
 		}
 	}
 
