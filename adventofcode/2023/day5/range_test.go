@@ -42,5 +42,5 @@ func TestInputPuzzlePart2(t *testing.T) {
 	}
 
 	seeds, mappings := ExtractMappings(input)
-	t.Log(Part2(seeds, mappings)) // 69323689
+	t.Log(Part2(seeds, mappings)) // 69323688
 }

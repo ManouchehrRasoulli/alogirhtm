@@ -20,7 +20,7 @@ type Range struct {
 
 func (r Range) Map(input int) int {
 	// map input number to destination range number
-	if input >= r.Source && input <= r.Source+r.Len {
+	if input >= r.Source && input < r.Source+r.Len {
 		dif := input - r.Source
 		return r.Dest + dif
 	}
