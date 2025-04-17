@@ -1,7 +1,7 @@
 package day4
 
 import (
-	"strconv"
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2023/helper"
 	"strings"
 )
 
@@ -70,31 +70,10 @@ func ReadTickets(data string) []Ticket {
 
 		tickets = append(tickets, Ticket{
 			TicketId:       cardId + 1,
-			WinningNumbers: ArrayStrToArrayInt(strings.Split(nums[0], " ")),
-			YourNumbers:    ArrayStrToArrayInt(strings.Split(nums[1], " ")),
+			WinningNumbers: helper.ArrayStrToArrayInt(strings.Split(nums[0], " ")),
+			YourNumbers:    helper.ArrayStrToArrayInt(strings.Split(nums[1], " ")),
 		})
 	}
 
 	return tickets
-}
-
-func ArrayStrToArrayInt(nums []string) []int {
-	var (
-		output = make([]int, 0)
-	)
-
-	for _, n := range nums {
-		if n == "" {
-			continue
-		}
-
-		num, err := strconv.Atoi(n)
-		if err != nil {
-			panic(err)
-		}
-
-		output = append(output, num)
-	}
-
-	return output
 }
