@@ -5,6 +5,7 @@ import (
 	"log"
 	"math"
 	"strings"
+	"sync"
 )
 
 const (
@@ -102,6 +103,49 @@ func Part1(seeds []int, mappings []Mapping) int {
 			minValue = prev
 		}
 	}
+
+	return minValue
+}
+
+func Part2(seeds []int, mappings []Mapping) int {
+	var (
+		minValue = math.MaxInt
+		wg       = &sync.WaitGroup{}
+		mutex    = &sync.Mutex{}
+	)
+
+	for i := 0; i < len(seeds); i += 2 {
+		start := seeds[i]
+		end := start + seeds[i+1]
+		wg.Add(1)
+
+		go func(start, end int) {
+			defer wg.Done()
+			localMinValue := math.MaxInt
+
+			log.Println("START start", start, "end", end)
+
+			for seed := start; seed < end; seed++ {
+				prev := seed
+				for _, m := range mappings {
+					prev = m.Map(prev)
+				}
+				if prev < localMinValue {
+					localMinValue = prev
+				}
+			}
+
+			mutex.Lock()
+			if localMinValue < minValue {
+				minValue = localMinValue
+			}
+			mutex.Unlock()
+
+			log.Println("FINISH start", start, "end", end, "with value", localMinValue)
+		}(start, end)
+	}
+
+	wg.Wait()
 
 	return minValue
 }
