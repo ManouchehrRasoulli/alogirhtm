@@ -122,6 +122,7 @@ func Part2(seeds []int, mappings []Mapping) int {
 		go func(start, end int) {
 			defer wg.Done()
 			localMinValue := math.MaxInt
+			seedNumber := 0
 
 			log.Println("START start", start, "end", end)
 
@@ -132,6 +133,7 @@ func Part2(seeds []int, mappings []Mapping) int {
 				}
 				if prev < localMinValue {
 					localMinValue = prev
+					seedNumber = seed
 				}
 			}
 
@@ -141,7 +143,7 @@ func Part2(seeds []int, mappings []Mapping) int {
 			}
 			mutex.Unlock()
 
-			log.Println("FINISH start", start, "end", end, "with value", localMinValue)
+			log.Println("FINISH start", start, "end", end, "seed number", seedNumber, "with value", localMinValue)
 		}(start, end)
 	}
 
