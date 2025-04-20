@@ -28,3 +28,27 @@ func TestInputPuzzlePart1(t *testing.T) {
 
 	t.Log(Part1(time, distance)) // 2269432
 }
+
+func TestInputTestPart2(t *testing.T) {
+	input, err := helper.ReadAll("test1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	time, distance := ReadRaceAndTimingJoined(input)
+	t.Log(time, distance)
+
+	t.Log(Part2(time, distance)) // 71503
+}
+
+func TestInputPuzzlePart2(t *testing.T) {
+	input, err := helper.ReadAll("puzzle.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	time, distance := ReadRaceAndTimingJoined(input)
+	t.Log(time, distance)
+
+	t.Log(Part2(time, distance)) // 35865985
+}
