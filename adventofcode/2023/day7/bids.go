@@ -10,7 +10,8 @@ import (
 type CardType int
 
 var (
-	values = []rune{'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'}
+	valuesPart1 = []rune{'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'}
+	valuesPart2 = []rune{'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A'}
 )
 
 const (
@@ -27,6 +28,59 @@ type Bid struct {
 	Hand      string
 	BidAmount int
 	CardType  CardType
+
+	ModifiedHand     string
+	ModifiedCardType CardType
+}
+
+func ResolveJokers(input string) (output string) {
+	if !strings.Contains(input, "J") {
+		// no change required
+		return input
+	}
+
+	indexOf := func(v rune) int {
+		for i, item := range valuesPart1 {
+			if item == v {
+				return i
+			}
+		}
+
+		panic("not valid !!!")
+	}
+
+	values := make(map[rune]int)
+	for _, r := range input {
+		values[r]++
+	}
+
+	var (
+		maxValue = "J"
+		maxCount int
+		maxIndex int
+	)
+
+	for k, v := range values {
+		if k == 'J' {
+			continue
+		}
+
+		ki := indexOf(k)
+
+		if v > maxCount {
+			maxCount = v
+			maxValue = string(k)
+			maxIndex = ki
+		} else if v == maxCount {
+			if ki > maxIndex {
+				maxCount = v
+				maxValue = string(k)
+				maxIndex = ki
+			}
+		}
+	}
+
+	return strings.ReplaceAll(input, "J", maxValue)
 }
 
 func ResolveType(input string) CardType {
@@ -68,12 +122,13 @@ func ResolveType(input string) CardType {
 		return FiveOfAKind
 	}
 
+	log.Println(input, values)
 	panic("unreachable !!!")
 }
 
-func Compare(a, b Bid) int {
+func ComparePart1(a, b Bid) int {
 	indexOf := func(v rune) int {
-		for i, item := range values {
+		for i, item := range valuesPart1 {
 			if item == v {
 				return i
 			}
@@ -84,6 +139,45 @@ func Compare(a, b Bid) int {
 
 	if a.CardType != b.CardType {
 		if a.CardType > b.CardType {
+			return 1
+		}
+
+		return -1
+	}
+
+	for i := 0; i < 5; i++ {
+		av := rune(a.Hand[i])
+		bv := rune(b.Hand[i])
+
+		if av == bv {
+			continue
+		}
+
+		ai := indexOf(av)
+		bi := indexOf(bv)
+		if ai > bi {
+			return 1
+		}
+
+		return -1
+	}
+
+	return 0
+}
+
+func ComparePart2(a, b Bid) int {
+	indexOf := func(v rune) int {
+		for i, item := range valuesPart2 {
+			if item == v {
+				return i
+			}
+		}
+
+		panic("not valid !!!")
+	}
+
+	if a.ModifiedCardType != b.ModifiedCardType {
+		if a.ModifiedCardType > b.ModifiedCardType {
 			return 1
 		}
 
@@ -136,7 +230,25 @@ func ReadBids(input string) []Bid {
 }
 
 func Part1(bids []Bid) int {
-	slices.SortFunc(bids, Compare)
+	slices.SortFunc(bids, ComparePart1)
+	amount := 0
+
+	log.Println(bids)
+
+	for i, b := range bids {
+		amount += (i + 1) * b.BidAmount
+	}
+
+	return amount
+}
+
+func Part2(bids []Bid) int {
+	for i, b := range bids {
+		bids[i].ModifiedHand = ResolveJokers(b.Hand)
+		bids[i].ModifiedCardType = ResolveType(bids[i].ModifiedHand)
+	}
+
+	slices.SortFunc(bids, ComparePart2)
 	amount := 0
 
 	log.Println(bids)
