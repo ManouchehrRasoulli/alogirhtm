@@ -56,7 +56,7 @@ func reverse(n int64) int64 {
 	return reversed
 }
 
-func UpsideDown(n1, n2 string) uint64 {
+func _UpsideDown(n1, n2 string) uint64 {
 	var (
 		start      = int64(0)
 		end        = int64(0)

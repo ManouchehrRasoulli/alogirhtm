@@ -124,6 +124,11 @@ func TestUpsideDown(t *testing.T) {
 			end:           "12345678900",
 			expectedCount: 5650,
 		},
+		{
+			start:         "100000",
+			end:           "12345678900000000",
+			expectedCount: 718650,
+		},
 	}
 
 	for _, test := range table {
