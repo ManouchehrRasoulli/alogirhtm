@@ -73,3 +73,50 @@ func Part1(items [][]int) int {
 
 	return sum
 }
+
+func findPreviousNaivePart2(data []int) []int {
+	var (
+		isAllZero = func(data []int) bool {
+			for _, i := range data {
+				if i != 0 {
+					return false
+				}
+			}
+
+			return true
+		}
+
+		generateNextData = func(data []int) []int {
+			output := make([]int, 0)
+			for i := 1; i < len(data); i++ {
+				output = append(output, data[i]-data[i-1])
+			}
+
+			return output
+		}
+	)
+
+	if isAllZero(data) { // last item is zero appended
+		newData := make([]int, 0)
+		newData = append(newData, 0)
+		return append(newData, data...)
+	}
+
+	nextDataOutput := findPreviousNaivePart2(generateNextData(data))
+	newData := make([]int, 0)
+	newData = append(newData, data[0]-nextDataOutput[0])
+	return newData
+}
+
+func Part2(items [][]int) int {
+	var (
+		sum = 0
+	)
+
+	for _, item := range items {
+		data := findPreviousNaivePart2(item)
+		sum += data[0]
+	}
+
+	return sum
+}
