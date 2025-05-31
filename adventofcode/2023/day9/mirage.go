@@ -52,13 +52,10 @@ func findNextNaivePart1(data []int) []int {
 	)
 
 	if isAllZero(data) { // last item is zero appended
-		data = append(data, 0)
-		return data
+		return []int{0}
 	}
 
-	nextDataOutput := findNextNaivePart1(generateNextData(data))
-	data = append(data, data[len(data)-1]+nextDataOutput[len(data)-1])
-	return data
+	return []int{data[len(data)-1] + findNextNaivePart1(generateNextData(data))[0]}
 }
 
 func Part1(items [][]int) int {
@@ -97,15 +94,10 @@ func findPreviousNaivePart2(data []int) []int {
 	)
 
 	if isAllZero(data) { // last item is zero appended
-		newData := make([]int, 0)
-		newData = append(newData, 0)
-		return append(newData, data...)
+		return []int{0}
 	}
 
-	nextDataOutput := findPreviousNaivePart2(generateNextData(data))
-	newData := make([]int, 0)
-	newData = append(newData, data[0]-nextDataOutput[0])
-	return newData
+	return []int{data[0] - findPreviousNaivePart2(generateNextData(data))[0]}
 }
 
 func Part2(items [][]int) int {
