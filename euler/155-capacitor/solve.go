@@ -29,8 +29,8 @@ var uniqueResults = make(map[string]struct{})
 func findCombinations(
 	currentCap float64,
 	availableCapacitors []float64, // The original N capacitors
-	usedMask int,                  // Bitmask for used original capacitors
-	maxCapacitors int,             // Total count of original capacitors
+	usedMask int, // Bitmask for used original capacitors
+	maxCapacitors int, // Total count of original capacitors
 ) {
 	// Convert currentCap to a string with controlled precision for map key
 	// This helps in treating numerically close floats as identical for map lookup.
