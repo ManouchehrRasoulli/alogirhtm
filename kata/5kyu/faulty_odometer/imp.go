@@ -81,3 +81,15 @@ func FaultyOdometer(n int) int {
 
 	return int(result)
 }
+
+func BestPracticeFaultyOdometer(n int) int {
+	if n == 0 {
+		return 0
+	} else {
+		d := n % 10
+		if d > 4 {
+			d -= 1
+		}
+		return d + 9*BestPracticeFaultyOdometer(n/10)
+	}
+}

@@ -19,9 +19,10 @@ func TestFaultyOdometerNaiveSecond(t *testing.T) {
 }
 
 func TestFaultyOdometer(t *testing.T) {
-	t.Log(FaultyOdometer(13))        // 12
-	t.Log(FaultyOdometer(15))        // 13
-	t.Log(FaultyOdometer(55))        // 40
-	t.Log(FaultyOdometer(2005))      // 1462
-	t.Log(FaultyOdometer(165826622)) // 69517865
+	t.Log(FaultyOdometer(13))                    // 12
+	t.Log(FaultyOdometer(15))                    // 13
+	t.Log(FaultyOdometer(55))                    // 40
+	t.Log(FaultyOdometer(2005))                  // 1462
+	t.Log(FaultyOdometer(165826622))             // 69517865
+	t.Log(BestPracticeFaultyOdometer(165826622)) // 69517865
 }
