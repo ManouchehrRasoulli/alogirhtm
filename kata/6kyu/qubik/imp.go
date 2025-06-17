@@ -1,11 +1,10 @@
-package main
+package kata
 
 import (
-	"fmt"
 	"math"
 )
 
-func findGoromonLocation(moves [][3]int) [2]int {
+func SolomonsQuest(moves [][3]int) [2]int {
 	x, y := 0, 0
 	layer := 0
 
@@ -35,20 +34,4 @@ func findGoromonLocation(moves [][3]int) [2]int {
 	}
 
 	return [2]int{x, y}
-}
-
-func main() {
-	mapExample := [][3]int{
-		{1, 3, 5},
-		{2, 0, 10},
-		{-3, 1, 4},
-		{4, 2, 4},
-		{1, 1, 5},
-		{-3, 0, 12},
-		{2, 1, 12},
-		{-2, 2, 6},
-	}
-
-	result := findGoromonLocation(mapExample)
-	fmt.Println(result) // Output: [346 40]
 }
