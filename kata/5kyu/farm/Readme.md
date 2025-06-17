@@ -1,0 +1,1 @@
+https://www.codewars.com/kata/5af4855c68e6449fbf00015c/train/go
