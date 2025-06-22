@@ -1,0 +1,33 @@
+-- Chapter 8 :: Nearest neighbors search
+So far in this book we have worked with containers that were holding unidimen-
+sional data: the entries that we stored in queues, trees, and hash tables were always
+assumed to be (or to be translatable to) numbers—simple values that could be
+compared in the most intuitive mathematical sense.
+
+8.1 - The nearest neighbors search problem
+Let’s start our journey for this chapter from figure 8.1: a map showing a few cities (taken
+from an alternate universe) and the locations of some warehouses in their area.
+Imagine you are living in the 1990s, the dawn of the internet era, with e-commerce
+taking its very first steps.
+You are running an online store where you sell locally produced products by col-
+laborating with a few retailers. They sell to shops in the real world, and you provide
+them with the infrastructure to also sell online, for a small price.
+Each warehouse will take care of deliveries for its orders, but to gain traction and have
+more retailers hop on board, you offer a special deal: for each delivery further than 10
+km away, you will cut your commission proportionally to the distance.
+Back to figure 8.1. You are the chief architect of this company and your main goal
+is finding a way, when a client orders a product, to come up with the closest warehouse
+that has the product in stock, and, if possible, keeping within a distance of 10 km.
+Long story short, to keep your company in business and to keep your job, it’s vital
+that you always redirect each user to the closest warehouse.
+Imagine that someone from Gotham City tries to order some French cheese. You
+look at your list of warehouses, compute the distance between your customer’s mail-
+ing address and each of them, and pick the closest one, P-5. Immediately after that,
+someone from Metropolis buys two wheels of the same cheese; unfortunately, you
+can’t use any of the distances computed before, because the source point, the location
+of the customer, is completely different. So, you just go through that list of stores
+again, compute all the distances, and choose warehouse B-2. If the next request
+comes, say, from Civic City, off you go! You once again need to compute all N distances
+again, to all N warehouses.
+
+
