@@ -30,4 +30,12 @@ again, compute all the distances, and choose warehouse B-2. If the next request
 comes, say, from Civic City, off you go! You once again need to compute all N distances
 again, to all N warehouses.
 
-
+8.2 - Solutions
+Now, I know, figure 8.1 only shows five warehouses, so it seems a trivial, quick opera-
+tion to go through all warehouses for each user. You could even handle orders manu-
+ally, choosing case by case based on your gut feeling and experience.
+But suppose that after one year, since your business is working well, more stores
+have decided to sell on your website, and you have close to a hundred of them in that
+same area. That’s challenging, and your customer care department can’t cope with a
+thousand orders a day: manually selecting the closest place for each order doesn’t
+work anymore.
