@@ -2,66 +2,71 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/net/icmp"
+	"golang.org/x/net/ipv4"
 	"log"
 	"net"
 	"os"
 	"time"
-
-	"golang.org/x/net/icmp"
-	"golang.org/x/net/ipv4"
-)
-
-const (
-	MaxTTL       = 30
-	Timeout      = time.Second * 3
-	ProtocolICMP = 1
 )
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Printf("Usage: %s <host>\n", os.Args[0])
-		os.Exit(1)
+		log.Fatalf("Usage: %s host\n", os.Args[0])
+		return
 	}
-	dest := os.Args[1]
 
-	ipAddr, err := net.ResolveIPAddr("ip4", dest)
+	host := os.Args[1]
+	hostIp, err := net.ResolveIPAddr("ip4", host)
 	if err != nil {
-		log.Fatal("Failed to resolve IP:", err)
+		log.Fatalf("Failed to resolve host IP address: %s\n", err)
+		return
 	}
+
+	log.Printf("host IP: %s\n", hostIp.String())
 
 	conn, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
 	if err != nil {
-		log.Fatal("Failed to listen for ICMP packets:", err)
+		log.Fatalf("Failed to create ICMP listener: %s\n", err)
+		return
 	}
-	defer conn.Close()
+	defer func() {
+		err = conn.Close()
+		if err != nil {
+			log.Fatalf("Failed to close ICMP listener: %s\n", err)
+		}
+	}()
 
-	for ttl := 1; ttl <= MaxTTL; ttl++ {
-		p := ipv4.NewPacketConn(nil)
-		p.SetTTL(ttl)
+	// max ttl is 30 hops
+	for ttl := 1; ttl <= 30; ttl++ {
+		packet := ipv4.NewPacketConn(conn.IPv4PacketConn().PacketConn)
+		_ = packet.SetTTL(ttl)
 
-		wm := icmp.Message{
-			Type: ipv4.ICMPTypeEcho,
-			Code: 0,
+		webMessage := icmp.Message{
+			Type:     ipv4.ICMPTypeEcho,
+			Code:     0,
+			Checksum: 0,
 			Body: &icmp.Echo{
-				ID:   os.Getpid() & 0xffff,
+				ID:   os.Getppid() & 0xffff,
 				Seq:  ttl,
 				Data: []byte("HELLO"),
 			},
 		}
 
-		wb, err := wm.Marshal(nil)
+		webByte, err := webMessage.Marshal(nil)
 		if err != nil {
-			log.Fatal("Marshal error:", err)
+			log.Fatalf("Failed to marshal web message: %s\n", err)
+			return
 		}
 
 		start := time.Now()
-		_, err = conn.WriteTo(wb, &net.IPAddr{IP: ipAddr.IP})
+		_, err = conn.WriteTo(webByte, &net.IPAddr{IP: hostIp.IP})
 		if err != nil {
 			log.Printf("%2d  *\n", ttl)
 			continue
 		}
 
-		conn.SetReadDeadline(time.Now().Add(Timeout))
+		_ = conn.SetReadDeadline(time.Now().Add(3 * time.Second))
 		rb := make([]byte, 1500)
 		n, peer, err := conn.ReadFrom(rb)
 		if err != nil {
@@ -69,7 +74,7 @@ func main() {
 			continue
 		}
 
-		rm, err := icmp.ParseMessage(ProtocolICMP, rb[:n])
+		rm, err := icmp.ParseMessage(1, rb[:n])
 		if err != nil {
 			log.Println("Failed to parse ICMP message:", err)
 			continue
