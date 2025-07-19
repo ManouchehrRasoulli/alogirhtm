@@ -1,6 +1,6 @@
 module github.com/ManouchehrRasoulli/alogirhtm
 
-go 1.23.3
+go 1.24.5
 
 require golang.org/x/net v0.41.0
 
