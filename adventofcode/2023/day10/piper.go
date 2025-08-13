@@ -1,0 +1,100 @@
+package day10
+
+import (
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2023/helper"
+	"strings"
+)
+
+type movement rune
+
+const (
+	NorthSouth movement = '|'
+	EastWest   movement = '-'
+	NorthEast  movement = 'L'
+	NorthWest  movement = 'J'
+	SouthEast  movement = 'F'
+	SouthWest  movement = '7'
+	Ground     movement = '.'
+	Start      movement = 'S'
+)
+
+var compatibilities = map[movement]map[helper.Direction][]movement{
+	NorthSouth: {
+		helper.Top:    {SouthEast, SouthWest, NorthSouth},
+		helper.Bottom: {NorthEast, NorthWest, NorthSouth},
+	},
+	EastWest: {
+		helper.Left:  {NorthEast, SouthEast, EastWest},
+		helper.Right: {NorthWest, SouthWest, EastWest},
+	},
+	NorthEast: {
+		helper.Top:   {NorthSouth, SouthEast, SouthWest},
+		helper.Right: {EastWest, SouthWest, NorthWest},
+	},
+	NorthWest: {
+		helper.Left: {EastWest, NorthEast, SouthEast},
+		helper.Top:  {NorthSouth, SouthEast, SouthWest},
+	},
+	SouthEast: {
+		helper.Right:  {NorthWest, SouthWest, EastWest},
+		helper.Bottom: {NorthWest, NorthEast, NorthSouth},
+	},
+	SouthWest: {
+		helper.Left:   {SouthEast, NorthEast, EastWest},
+		helper.Bottom: {NorthSouth, NorthEast, NorthWest},
+	},
+}
+
+var nextDirection = map[movement]map[helper.Direction]helper.Direction{
+	NorthSouth: {
+		helper.Bottom: helper.Bottom,
+		helper.Top:    helper.Top,
+	},
+	EastWest: {
+		helper.Left:  helper.Left,
+		helper.Right: helper.Right,
+	},
+	NorthEast: {
+		helper.Bottom: helper.Right,
+		helper.Left:   helper.Top,
+	},
+	NorthWest: {
+		helper.Right:  helper.Top,
+		helper.Bottom: helper.Left,
+	},
+	SouthEast: {
+		helper.Top:  helper.Right,
+		helper.Left: helper.Bottom,
+	},
+	SouthWest: {
+		helper.Top:   helper.Left,
+		helper.Right: helper.Bottom,
+	},
+}
+
+func ReadMap(data string) ([][]movement, *helper.Location) {
+	// read in the map and return the starting location
+	var (
+		field = make([][]movement, 0)
+		st    = &helper.Location{}
+	)
+
+	for i, line := range strings.Split(data, "\n") {
+		chars := strings.Split(line, "")
+		movements := make([]movement, 0)
+		for j, ch := range chars {
+			mv := movement(ch[0])
+			if mv == Start {
+				st = helper.NewLocation(i, j)
+			}
+			movements = append(movements, movement(ch[0]))
+		}
+		field = append(field, movements)
+	}
+
+	return field, st
+}
+
+func Part1(field [][]movement, start helper.Location) int {
+	panic("not implemented yet")
+}
