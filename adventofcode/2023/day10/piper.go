@@ -158,11 +158,12 @@ func Part1(field [][]movement, start *helper.Location) int {
 }
 
 func part2(field [][]movement, d1 directionLocation, d2 directionLocation) int {
+	d1x, d1y := d1.location.Get()
 	if d1.location.Compare(d2.location) == 0 {
+		field[d1x][d1y] = movement(helper.DirectionToChar[d1.direction])
 		return 1
 	}
 
-	d1x, d1y := d1.location.Get()
 	d1nd, ok := nextDirection[field[d1x][d1y]][d1.direction]
 	if !ok {
 		log.Println(d1, d2)

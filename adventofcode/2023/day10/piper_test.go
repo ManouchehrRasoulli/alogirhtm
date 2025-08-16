@@ -46,3 +46,15 @@ func TestInputTest1Part2(t *testing.T) {
 	t.Log(Part2(field, start))
 	printField(field)
 }
+
+func TestInputTest2Part2(t *testing.T) {
+	data, err := helper.ReadAll("input.test2.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	field, start := ReadMap(data)
+	printField(field)
+	t.Log(Part2(field, start))
+	printField(field)
+}
