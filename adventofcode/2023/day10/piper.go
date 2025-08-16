@@ -1,6 +1,7 @@
 package day10
 
 import (
+	"fmt"
 	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2023/helper"
 	"log"
 	"strings"
@@ -154,4 +155,58 @@ func Part1(field [][]movement, start *helper.Location) int {
 	}
 
 	return part1(field, validMoves[0], validMoves[1])
+}
+
+func part2(field [][]movement, d1 directionLocation, d2 directionLocation) int {
+	if d1.location.Compare(d2.location) == 0 {
+		return 1
+	}
+
+	d1x, d1y := d1.location.Get()
+	d1nd, ok := nextDirection[field[d1x][d1y]][d1.direction]
+	if !ok {
+		log.Println(d1, d2)
+		panic("could not find next direction d1 issue")
+	}
+	d1nl := d1.location.Move(d1nd)
+	field[d1x][d1y] = movement(helper.DirectionToChar[d1.direction])
+
+	return 1 + part2(field, directionLocation{
+		direction: d1nd,
+		location:  d1nl,
+	}, d2)
+}
+
+func Part2(field [][]movement, start *helper.Location) int {
+	validMoves := make([]directionLocation, 0)
+	for _, dir := range helper.PathDirections {
+		nl := start.Move(dir)
+		// check if valid
+		i, j := nl.Get()
+		if i < 0 || j < 0 || i >= len(field) || j >= len(field[i]) {
+			continue
+		}
+		mv := field[i][j]
+		if _, ok := nextDirection[mv][dir]; ok {
+			validMoves = append(validMoves, directionLocation{
+				direction: dir,
+				location:  nl,
+			})
+		}
+	}
+
+	if len(validMoves) != 2 {
+		panic("invalid number of movement !!")
+	}
+
+	return part2(field, validMoves[0], validMoves[1])
+}
+
+func printField(field [][]movement) {
+	for _, row := range field {
+		for _, col := range row {
+			fmt.Print(string(col))
+		}
+		fmt.Println()
+	}
 }
