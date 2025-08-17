@@ -178,6 +178,33 @@ func part2(field [][]movement, d1 directionLocation, d2 directionLocation) int {
 	}, d2)
 }
 
+func isInLoop(field [][]movement, indicator rune, location *helper.Location) (result bool) {
+	var (
+		x, y = location.Get()
+	)
+	if x < 0 || y < 0 || x >= len(field) || y >= len(field[x]) {
+		return
+	}
+
+	value := rune(field[x][y])
+
+	result = true
+
+	if value == indicator {
+		return
+	}
+
+	if _, ok := helper.CharToDirection[value]; ok {
+		return
+	}
+
+	field[x][y] = movement(indicator) // mark field
+	for _, _ = range helper.AllDirections {
+	}
+
+	panic("not implemented")
+}
+
 func Part2(field [][]movement, start *helper.Location) int {
 	validMoves := make([]directionLocation, 0)
 	for _, dir := range helper.PathDirections {
@@ -200,7 +227,12 @@ func Part2(field [][]movement, start *helper.Location) int {
 		panic("invalid number of movement !!")
 	}
 
-	return part2(field, validMoves[0], validMoves[1])
+	_ = part2(field, validMoves[0], validMoves[1])
+
+	// now we have the field with directions for circuit lets try to find
+	// the inner items with cascading strategy
+
+	return 0
 }
 
 func printField(field [][]movement) {
