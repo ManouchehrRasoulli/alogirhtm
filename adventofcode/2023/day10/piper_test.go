@@ -43,7 +43,7 @@ func TestInputTest1Part2(t *testing.T) {
 
 	field, start := ReadMap(data)
 	printField(field)
-	t.Log(Part2(field, start))
+	t.Log(Part2(field, start)) // 1
 	printField(field)
 }
 
@@ -56,5 +56,29 @@ func TestInputTest2Part2(t *testing.T) {
 	field, start := ReadMap(data)
 	printField(field)
 	t.Log(Part2(field, start))
+	printField(field)
+}
+
+func TestInputTest2Part3(t *testing.T) {
+	data, err := helper.ReadAll("input.test3.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	field, start := ReadMap(data)
+	printField(field)
+	t.Log(Part2(field, start)) // 4
+	printField(field)
+}
+
+func TestInputTest2Part4(t *testing.T) {
+	data, err := helper.ReadAll("input.test4.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	field, start := ReadMap(data)
+	printField(field)
+	t.Log(Part2(field, start)) // 4
 	printField(field)
 }
