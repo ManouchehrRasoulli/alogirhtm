@@ -22,7 +22,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("Authorization", "Bearer eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXlKMWMyVnlTV1FpT2pFd01ESTVMQ0oxYzJWeWJtRnRaU0k2SW0wdWNtRnpiM1ZzYVNKOSIsImV4cCI6MTc1MTE4MDY4NX0.i8sRjuQK0hsV59R5cGl4MVJ7vt4ccIbJklV1PEf3e83PjT3MGVOKNAmT-NktTiU0hkiitNOn1vVsy9Ch_vkdCA")
+	req.Header.Add("Authorization", "Bearer eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXlKMWMyVnlTV1FpT2pFd01ESTVMQ0oxYzJWeWJtRnRaU0k2SW0wdWNtRnpiM1ZzYVNKOSIsImV4cCI6MTc1NTUyMzQ2NX0.F8b6D25DS-N1NbszdT597gl61EdzlEFjpGikfrGkFtbW3ZS1a7qyzDsHWcDumtLjGmdSbljTjUi9BN48Fs-YCg")
 
 	ctx, cf := context.WithCancel(context.Background())
 	for i := 0; i < numcpu; i++ {
