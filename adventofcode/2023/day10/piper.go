@@ -18,6 +18,9 @@ const (
 	SouthWest  movement = '7'
 	Ground     movement = '.'
 	Start      movement = 'S'
+
+	InsideLoop       movement = '0'
+	CurrentlySeeking movement = 'I'
 )
 
 var compatibilities = map[movement]map[helper.Direction][]movement{
@@ -178,7 +181,7 @@ func part2(field [][]movement, d1 directionLocation, d2 directionLocation) int {
 	}, d2)
 }
 
-func isInLoop(field [][]movement, indicator rune, location *helper.Location) (result bool) {
+func isInLoop(field [][]movement, indicator movement, location *helper.Location) (result bool) {
 	var (
 		x, y = location.Get()
 	)
@@ -186,20 +189,20 @@ func isInLoop(field [][]movement, indicator rune, location *helper.Location) (re
 		return false
 	}
 
-	value := rune(field[x][y])
-	if value != rune(Ground) && value == rune(Start) {
+	value := field[x][y]
+	if value == Start {
 		return true
 	}
 
-	if value == indicator {
+	if _, ok := helper.CharToDirection[rune(value)]; ok {
 		return true
 	}
 
-	if _, ok := helper.CharToDirection[value]; ok {
+	if value == indicator || value == InsideLoop {
 		return true
 	}
 
-	if value != rune(Ground) {
+	if value != Ground {
 		return false
 	}
 
@@ -207,8 +210,10 @@ func isInLoop(field [][]movement, indicator rune, location *helper.Location) (re
 
 	field[x][y] = movement(indicator) // mark field
 	for _, dir := range helper.AllDirections {
-		v := isInLoop(field, indicator, location.Move(dir))
-		result = result && v
+		if !isInLoop(field, indicator, location.Move(dir)) {
+			result = false
+			break
+		}
 	}
 	if !result {
 		field[x][y] = movement(value)
@@ -243,17 +248,16 @@ func Part2(field [][]movement, start *helper.Location) int {
 
 	// now we have the field with directions for circuit lets try to find
 	// the inner items with cascading strategy
-	inLoop := '0'
 	for i := 0; i < len(field); i++ {
 		for j := 0; j < len(field[i]); j++ {
-			_ = isInLoop(field, inLoop, helper.NewLocation(i, j))
+			_ = isInLoop(field, CurrentlySeeking, helper.NewLocation(i, j))
 		}
 	}
 
 	items := 0
 	for i := 0; i < len(field); i++ {
 		for j := 0; j < len(field[i]); j++ {
-			if rune(field[i][j]) == inLoop {
+			if field[i][j] == InsideLoop {
 				items++
 			}
 		}
