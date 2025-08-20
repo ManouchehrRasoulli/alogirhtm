@@ -245,7 +245,7 @@ func isInLoop(field [][]movement, indicator movement, location *helper.Location)
 	}
 
 	value := field[x][y]
-	if value == Start {
+	if value == Start || value == PipeRight || value == PipeLeft {
 		return true
 	}
 
