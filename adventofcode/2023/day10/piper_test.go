@@ -79,6 +79,29 @@ func TestInputTest2Part4(t *testing.T) {
 
 	field, start := ReadMap(data)
 	printField(field)
-	t.Log(Part2(field, start)) // 4
+	t.Log(Part2(field, start)) // 8
+	printField(field)
+}
+
+func TestInputTest2Part5(t *testing.T) {
+	data, err := helper.ReadAll("input.test5.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	field, start := ReadMap(data)
+	printField(field)
+	t.Log(Part2(field, start)) // 10
+	printField(field)
+}
+
+func TestInputPuzzlePart2(t *testing.T) {
+	data, err := helper.ReadAll("input.puzzle.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	field, start := ReadMap(data)
+	t.Log(Part2(field, start)) // 7145
 	printField(field)
 }

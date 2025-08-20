@@ -19,8 +19,9 @@ const (
 	Ground     movement = '.'
 	Start      movement = 'S'
 
-	InsideLoop       movement = '0'
-	CurrentlySeeking movement = 'I'
+	CurrentlySeeking movement = 'C'
+	OutsideTheLoop   movement = '0'
+	InsideTheLoop    movement = 'I'
 )
 
 var compatibilities = map[movement]map[helper.Direction][]movement{
@@ -181,6 +182,16 @@ func part2(field [][]movement, d1 directionLocation, d2 directionLocation) int {
 	}, d2)
 }
 
+func markField(field [][]movement, v1 movement, v2 movement) {
+	for i := 0; i < len(field); i++ {
+		for j := 0; j < len(field[i]); j++ {
+			if field[i][j] == v1 {
+				field[i][j] = v2
+			}
+		}
+	}
+}
+
 func isInLoop(field [][]movement, indicator movement, location *helper.Location) (result bool) {
 	var (
 		x, y = location.Get()
@@ -198,8 +209,12 @@ func isInLoop(field [][]movement, indicator movement, location *helper.Location)
 		return true
 	}
 
-	if value == indicator || value == InsideLoop {
+	if value == indicator {
 		return true
+	}
+
+	if value == OutsideTheLoop {
+		return false
 	}
 
 	if value != Ground {
@@ -208,15 +223,12 @@ func isInLoop(field [][]movement, indicator movement, location *helper.Location)
 
 	result = true
 
-	field[x][y] = movement(indicator) // mark field
+	field[x][y] = indicator // mark field
 	for _, dir := range helper.AllDirections {
 		if !isInLoop(field, indicator, location.Move(dir)) {
 			result = false
 			break
 		}
-	}
-	if !result {
-		field[x][y] = movement(value)
 	}
 
 	return result
@@ -250,14 +262,19 @@ func Part2(field [][]movement, start *helper.Location) int {
 	// the inner items with cascading strategy
 	for i := 0; i < len(field); i++ {
 		for j := 0; j < len(field[i]); j++ {
-			_ = isInLoop(field, CurrentlySeeking, helper.NewLocation(i, j))
+			ok := isInLoop(field, CurrentlySeeking, helper.NewLocation(i, j))
+			if ok {
+				markField(field, CurrentlySeeking, InsideTheLoop)
+			} else {
+				markField(field, CurrentlySeeking, OutsideTheLoop)
+			}
 		}
 	}
 
 	items := 0
 	for i := 0; i < len(field); i++ {
 		for j := 0; j < len(field[i]); j++ {
-			if field[i][j] == InsideLoop {
+			if field[i][j] == InsideTheLoop {
 				items++
 			}
 		}
