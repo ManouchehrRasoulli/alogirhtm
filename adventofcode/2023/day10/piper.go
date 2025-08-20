@@ -19,6 +19,9 @@ const (
 	Ground     movement = '.'
 	Start      movement = 'S'
 
+	PipeLeft  movement = 'Q'
+	PipeRight movement = 'Z'
+
 	CurrentlySeeking movement = 'C'
 	OutsideTheLoop   movement = '0'
 	InsideTheLoop    movement = 'I'
@@ -161,7 +164,48 @@ func Part1(field [][]movement, start *helper.Location) int {
 	return part1(field, validMoves[0], validMoves[1])
 }
 
+func markLeftAndRight(field [][]movement, dirLoc directionLocation) {
+	var (
+		left, right helper.Direction
+	)
+
+	switch dirLoc.direction {
+	case helper.Bottom:
+		left = helper.Right
+		right = helper.Left
+	case helper.Right:
+		left = helper.Top
+		right = helper.Bottom
+	case helper.Top:
+		left = helper.Left
+		right = helper.Right
+	case helper.Left:
+		left = helper.Bottom
+		right = helper.Top
+	}
+
+	leftLoc := dirLoc.location.Move(left)
+	rightLoc := dirLoc.location.Move(right)
+
+	x, y := leftLoc.Get()
+	if x >= 0 && y >= 0 && x < len(field) && y < len(field[x]) {
+		value := field[x][y]
+		if value == Ground {
+			field[x][y] = PipeLeft
+		}
+	}
+
+	x, y = rightLoc.Get()
+	if x >= 0 && y >= 0 && x < len(field) && y < len(field[x]) {
+		value := field[x][y]
+		if value == Ground {
+			field[x][y] = PipeRight
+		}
+	}
+}
+
 func part2(field [][]movement, d1 directionLocation, d2 directionLocation) int {
+	markLeftAndRight(field, d1)
 	d1x, d1y := d1.location.Get()
 	if d1.location.Compare(d2.location) == 0 {
 		field[d1x][d1y] = movement(helper.DirectionToChar[d1.direction])
