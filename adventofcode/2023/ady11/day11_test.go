@@ -51,3 +51,28 @@ func TestPart1Puzzle(t *testing.T) {
 
 	t.Log(Part1(universe))
 }
+
+func TestPart2Test1(t *testing.T) {
+	input, err := helper.ReadAll("./input.test1.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	universe := ReadUniverse(input)
+	PrintUniverse(universe)
+
+	rowExpand, colExpand := ExpandNUniverse(universe, 100)
+	t.Log(rowExpand, colExpand)
+	t.Log(Part2(universe, rowExpand, colExpand))
+}
+
+func TestPart2Puzzle(t *testing.T) {
+	input, err := helper.ReadAll("./input.puzzle.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	universe := ReadUniverse(input)
+	rowExpand, colExpand := ExpandNUniverse(universe, 1_000_000)
+	t.Log(Part2(universe, rowExpand, colExpand))
+}

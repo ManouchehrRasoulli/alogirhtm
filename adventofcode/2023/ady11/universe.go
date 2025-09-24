@@ -20,6 +20,49 @@ func ReadUniverse(input string) [][]rune {
 	return universe
 }
 
+func ExpandNUniverse(universe [][]rune, e int) ([]int, []int) {
+	var (
+		rowsExpanded = make([]int, len(universe))
+		colsExpanded = make([]int, len(universe[0]))
+	)
+
+	rowNeedToExpand := func(row int) bool {
+		for j := 0; j < len(universe[row]); j++ {
+			if universe[row][j] == galaxy {
+				return false
+			}
+		}
+		return true
+	}
+
+	colNeedToExpand := func(col int) bool {
+		for i := 0; i < len(universe); i++ {
+			if universe[i][col] == galaxy {
+				return false
+			}
+		}
+		return true
+	}
+
+	for i := 0; i < len(universe); i++ {
+		if rowNeedToExpand(i) {
+			rowsExpanded[i] += e
+		} else {
+			rowsExpanded[i] += 1
+		}
+	}
+
+	for j := 0; j < len(universe[0]); j++ {
+		if colNeedToExpand(j) {
+			colsExpanded[j] += e
+		} else {
+			colsExpanded[j] += 1
+		}
+	}
+
+	return rowsExpanded, colsExpanded
+}
+
 func ExpandUniverse(universe [][]rune) [][]rune {
 	expandedUniverse := make([][]rune, 0)
 
