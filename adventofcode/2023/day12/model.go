@@ -2,6 +2,7 @@ package day12
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -17,6 +18,31 @@ const (
 type dataLines struct {
 	Data  []value
 	Match []int
+}
+
+func (d dataLines) DataMatches() bool {
+	var (
+		currentPattern = make([]int, 0)
+		currentCount   = 0
+	)
+
+	for _, v := range d.Data {
+		if v != damaged && currentCount != 0 {
+			currentPattern = append(currentPattern, currentCount)
+			currentCount = 0
+			continue
+		}
+
+		if v == damaged {
+			currentCount++
+		}
+	}
+
+	if currentCount != 0 {
+		currentPattern = append(currentPattern, currentCount)
+	}
+
+	return slices.Compare(currentPattern, d.Match) == 0
 }
 
 func (d dataLines) String() string {

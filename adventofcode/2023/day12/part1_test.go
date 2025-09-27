@@ -12,7 +12,15 @@ func TestInputTest0Part1(t *testing.T) {
 	}
 
 	items := readInput(data)
-	for _, i := range items {
-		t.Log(i)
+	t.Log(Part1(items)) // 21
+}
+
+func TestInputPuzzlePart1(t *testing.T) {
+	data, err := helper.ReadAll("input.puzzle.txt")
+	if err != nil {
+		t.Fatal(err)
 	}
+
+	items := readInput(data)
+	t.Log(Part1(items)) // 7922
 }
