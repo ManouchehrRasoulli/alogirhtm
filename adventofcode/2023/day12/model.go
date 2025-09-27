@@ -45,6 +45,23 @@ func (d dataLines) DataMatches() bool {
 	return slices.Compare(currentPattern, d.Match) == 0
 }
 
+func (d dataLines) Unfold(count int) dataLines {
+	newDataLine := dataLines{
+		Data:  make([]value, 0),
+		Match: make([]int, 0),
+	}
+
+	for i := 0; i < count; i++ {
+		newDataLine.Data = append(newDataLine.Data, d.Data...)
+		if i+1 != count {
+			newDataLine.Data = append(newDataLine.Data, unknown)
+		}
+		newDataLine.Match = append(newDataLine.Match, d.Match...)
+	}
+
+	return newDataLine
+}
+
 func (d dataLines) String() string {
 	return fmt.Sprintf("%s %v", string(d.Data), d.Match)
 }
