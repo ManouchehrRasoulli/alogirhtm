@@ -95,3 +95,8 @@ func readInput(in string) []dataLines {
 
 	return data
 }
+
+type memoKey struct {
+	pattern string
+	groups  string
+}
