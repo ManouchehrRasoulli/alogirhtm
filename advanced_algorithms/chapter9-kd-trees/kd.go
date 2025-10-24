@@ -117,3 +117,86 @@ func insert(root, newNode *node, level int) *node {
 
 	return root
 }
+
+func remove(root, target *node, level int) *node {
+	if root == nil {
+		return nil
+	}
+
+	if len(root.point) != len(target.point) {
+		panic("dimension mismatch in remove")
+	}
+
+	if equal(root, target) {
+		if root.repeat > 1 {
+			root.repeat--
+			return root
+		}
+
+		if root.right != nil {
+			k := len(root.point)
+			minNode := findMin(root.right, root.level%k, root.level+1, k)
+			root.point = append([]float32(nil), minNode.point...)
+			root.tag = minNode.tag
+			root.repeat = minNode.repeat
+			root.right = remove(root.right, minNode, root.level+1)
+			return root
+		}
+
+		if root.left != nil {
+			k := len(root.point)
+			minNode := findMin(root.left, root.level%k, root.level+1, k)
+			root.point = append([]float32(nil), minNode.point...)
+			root.tag = minNode.tag
+			root.repeat = minNode.repeat
+			root.left = remove(root.left, minNode, root.level+1)
+			root.right = root.left
+			root.left = nil
+			return root
+		}
+
+		return nil
+	}
+
+	switch compare(root, target) {
+	case 1:
+		root.left = remove(root.left, target, level+1)
+	case -1:
+		root.right = remove(root.right, target, level+1)
+	default:
+		root.left = remove(root.left, target, level+1)
+	}
+	return root
+}
+
+func findMin(n *node, axis, depth, k int) *node {
+	if n == nil {
+		return nil
+	}
+
+	cd := depth % k
+
+	if cd == axis {
+		leftMin := findMin(n.left, axis, depth+1, k)
+		return minNode(n, leftMin, axis)
+	}
+
+	leftMin := findMin(n.left, axis, depth+1, k)
+	rightMin := findMin(n.right, axis, depth+1, k)
+
+	m := minNode(n, leftMin, axis)
+	return minNode(m, rightMin, axis)
+}
+
+func minNode(a, b *node, axis int) *node {
+	if a == nil {
+		return b
+	}
+	if b == nil {
+		return a
+	}
+	if a.point[axis] <= b.point[axis] {
+		return a
+	}
+	return b
+}

@@ -79,7 +79,7 @@ func Test_InsertAndSearch(t *testing.T) {
 	}
 }
 
-func TestBuildKDTreeDiagram(t *testing.T) {
+func Test_BuildKDTreeDiagram_ThenRemove(t *testing.T) {
 	/*
 		          A (0,5)
 		         /      \
@@ -105,7 +105,12 @@ func TestBuildKDTreeDiagram(t *testing.T) {
 	PrintKDTree(root)
 
 	root = insert(root, newNode("H", []float32{2.5, -3}), 0)
-	t.Log("✅ KD-tree add new Node H")
 
+	t.Log("✅ KD-tree add new Node H")
+	PrintKDTree(root)
+
+	root = remove(root, newNode("C", []float32{-1, 6}), 0)
+
+	t.Log("✅ KD-tree add remove node C")
 	PrintKDTree(root)
 }
