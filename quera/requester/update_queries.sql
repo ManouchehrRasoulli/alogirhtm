@@ -1,0 +1,40 @@
+-- Auto-generated update queries
+-- Sat Nov  1 11:54:19 AM +0330 2025
+
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 105680 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 109511 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 109521 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 109526 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 109892 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 109972 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110264 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110630 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110631 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110632 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110721 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110909 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110910 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110911 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 110914 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 111503 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 111819 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 111820 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 111822 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 111824 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 55523 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 55533 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 55558 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 55946 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 56540 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 62904 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 63320 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 65375 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 82091 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 82787 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 83122 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 85419 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 90978 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 90980 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 90984 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 91019 and type = 'express';
+update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 91086 and type = 'express';
