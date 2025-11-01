@@ -12,40 +12,54 @@ echo "-- Auto-generated update queries" > "$OUTPUT_FILE"
 echo "-- $(date)" >> "$OUTPUT_FILE"
 echo "" >> "$OUTPUT_FILE"
 
-# === Track failures ===
+# === Track results ===
 failed_vendors=()
+successful_vendors=()
 
 # === Loop through JSON files ===
 for file in "$DIR"/*.json; do
   [ -e "$file" ] || continue  # skip if no files
 
   filename=$(basename "$file")
-  vendor_id="${filename%.json}"  # remove extension (e.g. 56540.json -> 56540)
+  vendor_id="${filename%.json}"  # e.g. 56540.json -> 56540
 
   echo "Processing vendor_id=$vendor_id ..."
 
   # Upload the JSON file
-  if ! curl -s --location "$ENDPOINT" \
+  if curl -s --location "$ENDPOINT" \
       --header "Authorization: $AUTH" \
       --form "file=@\"$file\"" \
-      --fail; then
-    echo "❌ Failed to upload $file"
-    failed_vendors+=("$vendor_id")
-    continue
-  fi
+      --fail > /dev/null; then
 
-  # Generate the SQL update line
-  echo "update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = $vendor_id and type = 'express';" >> "$OUTPUT_FILE"
+    echo "✅ Uploaded successfully: $vendor_id"
+    successful_vendors+=("$vendor_id")
+
+    # Generate the SQL update line
+    echo "update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = $vendor_id and type = 'express';" >> "$OUTPUT_FILE"
+
+  else
+    echo "❌ Failed to upload: $vendor_id"
+    failed_vendors+=("$vendor_id")
+  fi
 done
 
 echo ""
-echo "✅ Done. SQL queries written to: $OUTPUT_FILE"
+echo "✅ SQL queries written to: $OUTPUT_FILE"
+echo ""
 
-# === Print failed vendors ===
+# === Print results ===
+if [ ${#successful_vendors[@]} -gt 0 ]; then
+  echo "🟢 Successful uploads:"
+  printf '(%s)\n' "$(IFS=,; echo "${successful_vendors[*]}")"
+else
+  echo "⚠️ No successful uploads."
+fi
+
 if [ ${#failed_vendors[@]} -gt 0 ]; then
   echo ""
-  echo "❌ Upload failed for the following vendors:"
+  echo "🔴 Failed uploads:"
   printf '(%s)\n' "$(IFS=,; echo "${failed_vendors[*]}")"
 else
-  echo "🎉 All uploads succeeded!"
+  echo ""
+  echo "🎉 No failed uploads — all succeeded!"
 fi
