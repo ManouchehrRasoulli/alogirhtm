@@ -5,7 +5,7 @@ set -e
 DIR="/home/manouchehrrasouli/Downloads/tabriz/tabriz/jsons"  # directory containing .json files
 OUTPUT_FILE="./update_queries.sql"                           # output SQL file
 ENDPOINT="http://localhost:1552/radar/backoffice/polygon/doctor/express"
-AUTH="Bearer eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXlKMWMyVnlTV1FpT2pFd01ESTVMQ0oxYzJWeWJtRnRaU0k2SW0wdWNtRnpiM1ZzYVNKOSIsImV4cCI6MTc2MTk4NjYyMH0.UZx1keYD6mBlkiA-HPLBFBTuzzMg5Dm2ZxPHpqDP9_WGuvLEEZspwX6fBdOXW97s-sJ0V-zItw2-C9sFg3VlCQ"
+AUTH="Bearer eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXlKMWMyVnlTV1FpT2pFd01ESTVMQ0oxYzJWeWJtRnRaU0k2SW0wdWNtRnpiM1ZzYVNKOSIsImV4cCI6MTc2MjU5NjkyOH0.BrG8GCDeJjqsM1EJoaMD8yyu8vb70H0xA5_u_4cqNj5Odm6G_HHeclCCR2olOxLUgTqVHBHeMeoRxTGCsgClAg"
 
 # === Initialize output ===
 echo "-- Auto-generated update queries" > "$OUTPUT_FILE"

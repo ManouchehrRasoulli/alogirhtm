@@ -1,5 +1,5 @@
 -- Auto-generated update queries
--- Sat Nov  1 11:58:39 AM +0330 2025
+-- Sat Nov  8 01:16:01 PM +0330 2025
 
 update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 105680 and type = 'express';
 update delivery_methods set pricing_plan_id = 374, resolution_type = 'polygon' where vendor_id = 109511 and type = 'express';
