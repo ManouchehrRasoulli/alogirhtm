@@ -30,6 +30,7 @@ func (r *Rotary) Move(direction Direction, steps int) int {
 			r.current -= 100
 		}
 	}
+	r.current %= 100
 
 	return r.current
 }
