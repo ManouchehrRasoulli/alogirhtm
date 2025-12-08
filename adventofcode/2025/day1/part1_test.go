@@ -1,15 +1,8 @@
 package day1
 
 import (
-	_ "embed"
 	"testing"
 )
-
-//go:embed sample1.txt
-var sample1 string
-
-//go:embed puzzle.txt
-var puzzle string
 
 func TestZeroCountSample1(t *testing.T) {
 	rotary := NewRotary(50)

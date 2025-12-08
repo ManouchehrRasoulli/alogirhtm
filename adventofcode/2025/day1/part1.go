@@ -24,7 +24,6 @@ func ZeroCount(input string, rotary *Rotary) int {
 		}
 
 		if rotary.Move(direction, steps) == 0 {
-			log.Println(line)
 			zeros++
 		}
 	}
