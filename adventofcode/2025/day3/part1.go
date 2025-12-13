@@ -1,24 +1,28 @@
 package day3
 
 import (
-	"fmt"
-	"strconv"
 	"strings"
 )
 
-func NaiveMaxJoltagePart1(input string) int {
+func MaxJoltagePart1(input string) int {
 	var (
 		maxValueJoltage = func(bank string) int {
-			maxVal := uint64(0)
-			for i := 0; i < len(bank); i++ {
-				for j := i + 1; j < len(bank); j++ {
-					valStr := fmt.Sprintf("%s%s", string(bank[i]), string(bank[j]))
-					val, _ := strconv.ParseUint(valStr, 10, 64)
-					maxVal = max(maxVal, val)
+			if len(bank) < 2 {
+				return 0
+			}
+			maxVal := 0
+			maxRight := int(bank[len(bank)-1] - '0')
+			for i := len(bank) - 2; i >= 0; i-- {
+				current := int(bank[i] - '0')
+				val := current*10 + maxRight
+				if val > maxVal {
+					maxVal = val
+				}
+				if current > maxRight {
+					maxRight = current
 				}
 			}
-
-			return int(maxVal)
+			return maxVal
 		}
 
 		lines = strings.Split(input, "\n")
