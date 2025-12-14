@@ -53,9 +53,6 @@ func FreshIngredients(input string) (int, int) {
 		return 0
 	})
 
-	fmt.Println(len(ranges))
-	fmt.Println(len(ingredients))
-
 	for _, id := range ingredients {
 		found := false
 		for _, rng := range ranges {
