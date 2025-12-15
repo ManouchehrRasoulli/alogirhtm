@@ -7,5 +7,5 @@ func TestManifoldSample1(t *testing.T) {
 }
 
 func TestManifoldPuzzle(t *testing.T) {
-	t.Log(Manifold(puzzle)) //
+	t.Log(Manifold(puzzle)) // 1698
 }
