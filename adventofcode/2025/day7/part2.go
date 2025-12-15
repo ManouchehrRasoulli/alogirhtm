@@ -1,58 +1,69 @@
 package day7
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
 )
 
 func ManifoldDimensions(input string) int {
-	lines := strings.Split(strings.TrimSpace(input), "\n")
+	var (
+		field    [][]string
+		isNumber = func(s string) bool {
+			_, err := strconv.ParseInt(s, 10, 64)
+			if err != nil {
+				return false
+			}
+			return true
+		}
+		addFunc = func(field [][]string, x, y int, value string) {
+			if x < 0 || x >= len(field) ||
+				y < 0 || y >= len(field[x]) {
+				return
+			}
 
-	h := len(lines)
-	w := len(lines[0])
+			currentValue := field[x][y]
+			currentDigit, _ := strconv.ParseInt(currentValue, 10, 64)
+			addDigit, _ := strconv.ParseInt(value, 10, 64)
 
-	field := make([][]string, h)
-	for i := range field {
-		field[i] = strings.Split(lines[i], "")
+			field[x][y] = fmt.Sprintf("%d", currentDigit+addDigit)
+		}
+		valueFunc = func(field [][]string, x, y int) string {
+			if x < 0 || x >= len(field) ||
+				y < 0 || y >= len(field[x]) {
+				return Empty
+			}
+			return field[x][y]
+		}
+		lines          = strings.Split(input, "\n")
+		dimensionCount = 0
+	)
+
+	for _, line := range lines {
+		field = append(field, strings.Split(line, ""))
 	}
 
-	timelines := make([][]int64, h)
-	for i := range timelines {
-		timelines[i] = make([]int64, w)
-	}
-
-	for j := 0; j < w; j++ {
-		if field[0][j] == Start {
-			timelines[0][j] = 1
+	for i := 1; i < len(field); i++ {
+		for j := 0; j < len(field[i]); j++ {
+			if valueFunc(field, i-1, j) == Start {
+				addFunc(field, i, j, "1")
+			}
+			if valueFunc(field, i, j) == Split &&
+				isNumber(valueFunc(field, i-1, j)) {
+				addFunc(field, i, j-1, valueFunc(field, i-1, j))
+				addFunc(field, i, j+1, valueFunc(field, i-1, j))
+			}
+			if isNumber(valueFunc(field, i-1, j)) &&
+				valueFunc(field, i, j) != Split {
+				addFunc(field, i, j, valueFunc(field, i-1, j))
+			}
 		}
 	}
 
-	for i := 1; i < h; i++ {
-		prev := timelines[i-1]
-		curr := timelines[i]
-
-		for j := 0; j < w; j++ {
-			if prev[j] == 0 {
-				continue
-			}
-
-			switch field[i][j] {
-			case Split:
-				if j-1 >= 0 {
-					curr[j-1] += prev[j]
-				}
-				if j+1 < w {
-					curr[j+1] += prev[j]
-				}
-			case Empty:
-				curr[j] += prev[j]
-			}
-		}
+	for _, row := range field[len(field)-1] {
+		num, _ := strconv.Atoi(row)
+		dimensionCount += num
 	}
 
-	var total int64
-	for _, v := range timelines[h-1] {
-		total += v
-	}
-
-	return int(total)
+	return dimensionCount
 }
