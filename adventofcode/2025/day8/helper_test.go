@@ -18,7 +18,7 @@ func TestDistanceCollector(t *testing.T) {
 	dc := newDistanceCollection()
 	for i := 0; i < len(locations); i++ {
 		for j := i + 1; j < len(locations); j++ {
-			dc.inser(locations[i], locations[j])
+			dc.insert(locations[i], locations[j])
 		}
 	}
 
