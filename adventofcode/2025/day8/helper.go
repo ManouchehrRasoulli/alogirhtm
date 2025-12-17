@@ -111,15 +111,6 @@ func (dc *distanceCollection) insert(a, b Location) {
 	}
 
 	dc.head.insert(newNode)
-
-	// prune extra nodes up to 1000
-	p := dc.head
-	for i := 0; i < 999; i++ {
-		if p.next != nil {
-			p = p.next
-		}
-	}
-	p.next = nil
 }
 
 func (dc *distanceCollection) next() *distanceNode {
@@ -142,13 +133,27 @@ func newCluster() *cluster {
 	}
 }
 
-func (c *cluster) insert(a, b Location) {
+func (c *cluster) count() int {
+	return len(c.clusters)
+}
+
+func (c *cluster) insert(a Location) {
+	for _, cl := range c.clusters {
+		_, hasA := cl[a]
+		if hasA {
+			return
+		}
+	}
+
+	c.clusters = append(c.clusters, map[Location]struct{}{a: {}})
+}
+
+func (c *cluster) merge(a, b Location) {
 	var foundIdx []int
 	for i, cl := range c.clusters {
 		_, hasA := cl[a]
 		_, hasB := cl[b]
 		if hasA && hasB {
-			// already in same circuit, do nothing
 			return
 		}
 		if hasA || hasB {
@@ -157,7 +162,6 @@ func (c *cluster) insert(a, b Location) {
 	}
 
 	if len(foundIdx) == 0 {
-		// new circuit
 		cl := map[Location]struct{}{a: {}, b: {}}
 		c.clusters = append(c.clusters, cl)
 		return
