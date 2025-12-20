@@ -9,7 +9,7 @@ func MaxRectangle(input string) int {
 	var (
 		lines    = strings.Split(input, "\n")
 		maxValue = 0
-		points   [][2]int
+		polygon  [][2]int
 		distance = func(a, b [2]int) int {
 			ax := a[0] - b[0]
 			bx := a[1] - b[1]
@@ -29,12 +29,12 @@ func MaxRectangle(input string) int {
 		if err != nil {
 			panic(err)
 		}
-		points = append(points, [2]int{a, b})
+		polygon = append(polygon, [2]int{a, b})
 	}
 
-	for i := 0; i < len(points); i++ {
-		for j := i + 1; j < len(points); j++ {
-			maxValue = max(maxValue, distance(points[i], points[j]))
+	for i := 0; i < len(polygon); i++ {
+		for j := i + 1; j < len(polygon); j++ {
+			maxValue = max(maxValue, distance(polygon[i], polygon[j]))
 		}
 	}
 
