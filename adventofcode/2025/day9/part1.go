@@ -7,10 +7,10 @@ import (
 
 func MaxRectangle(input string) int {
 	var (
-		lines    = strings.Split(input, "\n")
-		maxValue = 0
-		polygon  [][2]int
-		distance = func(a, b [2]int) int {
+		lines         = strings.Split(input, "\n")
+		maxValue      = 0
+		polygon       [][2]int
+		rectangleSize = func(a, b [2]int) int {
 			ax := a[0] - b[0]
 			bx := a[1] - b[1]
 			if ax < 0 {
@@ -34,7 +34,7 @@ func MaxRectangle(input string) int {
 
 	for i := 0; i < len(polygon); i++ {
 		for j := i + 1; j < len(polygon); j++ {
-			maxValue = max(maxValue, distance(polygon[i], polygon[j]))
+			maxValue = max(maxValue, rectangleSize(polygon[i], polygon[j]))
 		}
 	}
 
