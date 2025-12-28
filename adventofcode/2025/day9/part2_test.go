@@ -7,5 +7,5 @@ func TestMaxRectangleInPolygonSample1(t *testing.T) {
 }
 
 func TestMaxRectangleInPolygonPuzzle(t *testing.T) {
-	t.Log(MaxRectangleInPolygon(puzzle)) //
+	t.Log(MaxRectangleInPolygon(puzzle)) // 223975695 -- wrong
 }
