@@ -96,9 +96,7 @@ func (m *Machine) String() string {
 
 	// Indicators
 	sb.WriteByte('[')
-	for _, l := range m.indicators {
-		sb.WriteByte(byte(l))
-	}
+	sb.WriteString(string(m.indicators))
 	sb.WriteByte(']')
 	sb.WriteByte(' ')
 
@@ -130,4 +128,32 @@ func (m *Machine) String() string {
 	sb.WriteByte(']')
 
 	return sb.String()
+}
+
+func (m *Machine) Reset() {
+	for i := range m.current {
+		m.current[i] = off
+	}
+}
+
+func (m *Machine) PushButton(i int) {
+	if i >= len(m.buttons[i]) {
+		return // couldn't push that button
+	}
+	btn := m.buttons[i]
+	toggle := func(index int) {
+		if index >= len(m.current) {
+			return
+		}
+		ct := m.current[index]
+		if ct == off {
+			m.current[index] = on
+		} else {
+			m.current[index] = off
+		}
+	}
+
+	for _, index := range btn {
+		toggle(index)
+	}
 }
