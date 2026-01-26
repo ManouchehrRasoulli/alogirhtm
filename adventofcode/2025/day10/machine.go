@@ -137,7 +137,7 @@ func (m *Machine) Reset() {
 }
 
 func (m *Machine) PushButton(i int) {
-	if i >= len(m.buttons[i]) {
+	if i >= len(m.buttons) {
 		return // couldn't push that button
 	}
 	btn := m.buttons[i]

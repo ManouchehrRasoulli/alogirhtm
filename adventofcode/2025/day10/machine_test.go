@@ -36,3 +36,28 @@ func TestMachine_Push(t *testing.T) {
 	m.Reset()
 	t.Log(m)
 }
+
+func TestMachine_Push2(t *testing.T) {
+	m, err := ParseMachine("[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}")
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log("current")
+	t.Log(m)
+
+	t.Log("push 2")
+	m.PushButton(2)
+	t.Log(m)
+
+	t.Log("push 3")
+	m.PushButton(3)
+	t.Log(m)
+
+	t.Log("push 4")
+	m.PushButton(4)
+	t.Log(m)
+
+	t.Log("reset")
+	m.Reset()
+	t.Log(m)
+}
