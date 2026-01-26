@@ -157,3 +157,27 @@ func (m *Machine) PushButton(i int) {
 		toggle(index)
 	}
 }
+
+func combinations(nums []int) [][]int {
+	// generate all combinations of pushing buttons
+	var (
+		res  [][]int
+		curr []int
+	)
+
+	var backtrack func(start int)
+	backtrack = func(start int) {
+		tmp := make([]int, len(curr))
+		copy(tmp, curr)
+		res = append(res, tmp)
+
+		for i := start; i < len(nums); i++ {
+			curr = append(curr, nums[i])
+			backtrack(i + 1)
+			curr = curr[:len(curr)-1]
+		}
+	}
+
+	backtrack(0)
+	return res
+}
