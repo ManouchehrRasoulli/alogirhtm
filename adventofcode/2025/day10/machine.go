@@ -8,7 +8,7 @@ import (
 )
 
 var machineRegex = regexp.MustCompile(
-	`^\[(?P<indicators>[.#]+)\]\s+(?P<buttons>(?:\(\d+(?:,\d+)*\)\s*)+)\{(?P<joltage>\d+(?:,\d+)*)\}$`,
+	`^\[(?P<indicators>[.#]+)]\s+(?P<buttons>(?:\(\d+(?:,\d+)*\)\s*)+)\{(?P<joltage>\d+(?:,\d+)*)}$`,
 )
 
 type (
@@ -63,7 +63,10 @@ func ParseMachine(s string) (*Machine, error) {
 	for _, m := range buttonMatches {
 		var b button
 		for _, v := range strings.Split(m[1], ",") {
-			n, _ := strconv.Atoi(v)
+			n, err := strconv.Atoi(v)
+			if err != nil {
+				return nil, err
+			}
 			b = append(b, n)
 		}
 		buttons = append(buttons, b)
@@ -71,16 +74,19 @@ func ParseMachine(s string) (*Machine, error) {
 
 	// Joltage
 	joltageRaw := get("joltage")
-	var joltage []int
+	var jtg []int
 	for _, v := range strings.Split(joltageRaw, ",") {
-		n, _ := strconv.Atoi(v)
-		joltage = append(joltage, n)
+		n, err := strconv.Atoi(v)
+		if err != nil {
+			return nil, err
+		}
+		jtg = append(jtg, n)
 	}
 
 	return &Machine{
 		indicators: indicators,
 		buttons:    buttons,
-		joltage:    joltage,
+		joltage:    jtg,
 		current:    current,
 	}, nil
 }
