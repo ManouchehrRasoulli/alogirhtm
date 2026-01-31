@@ -104,14 +104,13 @@ func Part2(input string) int {
 		total = 0
 	)
 
-	for i, line := range lines {
+	for _, line := range lines {
 		m, err := ParseMachine(line)
 		if err != nil {
 			panic(err)
 		}
-		total += minPresses(m.buttons, m.joltage)
-		fmt.Printf("machine %d\n", i)
-	}
 
+		total += minPresses(m.buttons, m.joltage)
+	}
 	return total
 }
