@@ -132,6 +132,15 @@ func solveMachineJoltage(m *MachineJoltage) int {
 
 	var bestTotal int = -1
 
+	// Compute a reasonable upper bound for free variables
+	// Each button press adds to at least one counter, so max presses is bounded
+	maxTarget := 0
+	for _, t := range m.joltage {
+		if t > maxTarget {
+			maxTarget = t
+		}
+	}
+
 	var search func(freeIdx int, freeVals []int, currentTotal int)
 	search = func(freeIdx int, freeVals []int, currentTotal int) {
 		if bestTotal >= 0 && currentTotal >= bestTotal {
@@ -165,39 +174,8 @@ func solveMachineJoltage(m *MachineJoltage) int {
 			return
 		}
 
-		freeCol := freeVars[freeIdx]
-
-		maxVal := 0
-		for _, target := range m.joltage {
-			if target > maxVal {
-				maxVal = target
-			}
-		}
-
-		for col := 0; col < numButtons; col++ {
-			if isPivotCol[col] {
-				r := pivotRows[col]
-				coef := matrix[r][freeCol]
-				if coef.num > 0 {
-					rhs := matrix[r][numButtons]
-					for fi := 0; fi < freeIdx; fi++ {
-						c := matrix[r][freeVars[fi]]
-						rhs = subRat(rhs, mulRat(c, newRat(freeVals[fi], 1)))
-					}
-					if coef.num > 0 {
-						bound := divRat(rhs, coef)
-						if bound.num >= 0 {
-							boundVal := bound.num / bound.den
-							if boundVal < maxVal {
-								maxVal = boundVal
-							}
-						}
-					}
-				}
-			}
-		}
-
-		for v := 0; v <= maxVal; v++ {
+		// Use maxTarget as upper bound - no single button needs more presses than the largest target
+		for v := 0; v <= maxTarget; v++ {
 			freeVals = append(freeVals, v)
 			search(freeIdx+1, freeVals, currentTotal+v)
 			freeVals = freeVals[:len(freeVals)-1]

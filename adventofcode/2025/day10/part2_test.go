@@ -7,5 +7,5 @@ func TestSamplePart2(t *testing.T) {
 }
 
 func TestPuzzlePart2(t *testing.T) {
-	t.Log(Part2(puzzle)) // 16467
+	t.Log(Part2(puzzle)) // 16765
 }
