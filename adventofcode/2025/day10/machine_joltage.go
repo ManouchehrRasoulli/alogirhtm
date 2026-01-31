@@ -2,6 +2,7 @@ package day10
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -72,11 +73,90 @@ func (m *MachineJoltage) String() string {
 	return sb.String()
 }
 
+func (m *MachineJoltage) PushButton(btn button) bool {
+	for _, index := range btn {
+		if m.currentJoltage[index]+1 > m.joltage[index] {
+			fmt.Println("pushing button -->", btn, index)
+			fmt.Println(m.String())
+			panic("joltage exceeded")
+		}
+		m.currentJoltage[index]++
+	}
+
+	return true
+}
+
+func (m *MachineJoltage) DisableButtons() {
+	buttonPushJoltage := func(b button, index int) bool {
+		for _, idx := range b {
+			if idx == index {
+				return true
+			}
+		}
+		return false
+	}
+	for i := 0; i < len(m.currentJoltage); i++ {
+		if m.currentJoltage[i] == m.joltage[i] {
+			for bi, b := range m.buttons {
+				if buttonPushJoltage(b, i) {
+					m.isButtonActive[bi] = false
+				}
+			}
+		}
+	}
+}
+
+func (m *MachineJoltage) GetMinJoltageIndex() int {
+	var (
+		minValue = math.MaxInt
+		minIndex int
+	)
+
+	for i := 0; i < len(m.joltage); i++ {
+		v := m.joltage[i] - m.currentJoltage[i]
+		if v <= 0 {
+			continue
+		}
+
+		if v < minValue {
+			minValue = v
+			minIndex = i
+		}
+	}
+
+	return minIndex
+}
+
+func (m *MachineJoltage) GetJoltageButtons(joltageIndex int) []button {
+	var (
+		buttons           []button
+		buttonPushJoltage = func(b button, index int) bool {
+			for _, idx := range b {
+				if idx == index {
+					return true
+				}
+			}
+			return false
+		}
+	)
+
+	for i := 0; i < len(m.buttons); i++ {
+		if buttonPushJoltage(m.buttons[i], joltageIndex) &&
+			m.isButtonActive[i] {
+
+			buttons = append(buttons, m.buttons[i])
+		}
+	}
+
+	return buttons
+}
+
 func (m *MachineJoltage) Done() bool {
 	for i := 0; i < len(m.joltage); i++ {
 		if m.currentJoltage[i] != m.joltage[i] {
 			return false
 		}
 	}
+
 	return true
 }
