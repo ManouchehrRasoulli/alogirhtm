@@ -3,18 +3,30 @@ package day11
 import "strings"
 
 const (
-	start string = "you"
-	end   string = "out"
+	// part 1
+	you string = "you"
+
+	// part 2
+	start      string = "svr"
+	indicator1 string = "dac"
+	indicator2 string = "fft"
+
+	end string = "out"
 )
 
 type node struct {
-	label      string
-	reached    bool
+	label     string
+	neighbors []*node
+	reached   bool
+
+	// only for part 1
 	reachPaths int
-	neighbors  []*node
+
+	// only for part 2
+
 }
 
-func (n *node) uniquePaths() int {
+func (n *node) uniquePathsPart1() int {
 	if n.label == end {
 		return 1
 	}
@@ -24,7 +36,7 @@ func (n *node) uniquePaths() int {
 	}
 
 	for _, ng := range n.neighbors {
-		n.reachPaths += ng.uniquePaths()
+		n.reachPaths += ng.uniquePathsPart1()
 	}
 
 	n.reached = true
@@ -36,7 +48,7 @@ type graph struct {
 	nodes map[string]*node
 }
 
-func parseGraph(input string) *graph {
+func parseGraphPart1(input string) *graph {
 	var (
 		g = graph{
 			start: nil,
@@ -51,9 +63,8 @@ func parseGraph(input string) *graph {
 		nd, ok := g.nodes[current]
 		if !ok {
 			nd = &node{
-				label:      current,
-				reachPaths: 0,
-				neighbors:  make([]*node, 0),
+				label:     current,
+				neighbors: make([]*node, 0),
 			}
 		}
 
@@ -61,16 +72,15 @@ func parseGraph(input string) *graph {
 			ng, ngOk := g.nodes[indicators[i]]
 			if !ngOk {
 				ng = &node{
-					label:      indicators[i],
-					reachPaths: 0,
-					neighbors:  make([]*node, 0),
+					label:     indicators[i],
+					neighbors: make([]*node, 0),
 				}
 			}
 			nd.neighbors = append(nd.neighbors, ng)
 			g.nodes[indicators[i]] = ng
 		}
 
-		if nd.label == start {
+		if nd.label == you {
 			g.start = nd
 		}
 		g.nodes[current] = nd
