@@ -1,6 +1,8 @@
 package day11
 
-import "strings"
+import (
+	"strings"
+)
 
 const (
 	// part 1
@@ -10,24 +12,24 @@ const (
 	start      string = "svr"
 	indicator1 string = "dac"
 	indicator2 string = "fft"
-
-	end string = "out"
+	end        string = "out"
 )
 
 type node struct {
 	label     string
 	neighbors []*node
-	reached   bool
 
-	// only for part 1
+	// part 1 cache
+	reached    bool
 	reachPaths int
 
-	// only for part 2
-
+	// part 2 cache: key = [seenDAC, seenFFT]
+	memo map[[2]bool]int
 }
 
 func (n *node) uniquePathsPart1() int {
 	if n.label == end {
+		n.reached = true
 		return 1
 	}
 
@@ -43,48 +45,81 @@ func (n *node) uniquePathsPart1() int {
 	return n.reachPaths
 }
 
+func (n *node) uniquePathsPart2(seenDAC bool, seenFFT bool) int {
+	// update state based on current node
+	if n.label == indicator1 {
+		seenDAC = true
+	}
+	if n.label == indicator2 {
+		seenFFT = true
+	}
+
+	key := [2]bool{seenDAC, seenFFT}
+	if val, ok := n.memo[key]; ok {
+		return val
+	}
+
+	// base case
+	if n.label == end {
+		if seenDAC && seenFFT {
+			return 1
+		}
+		return 0
+	}
+
+	count := 0
+	for _, ng := range n.neighbors {
+		count += ng.uniquePathsPart2(seenDAC, seenFFT)
+	}
+
+	n.memo[key] = count
+	return count
+}
+
 type graph struct {
 	start *node
 	nodes map[string]*node
 }
 
-func parseGraphPart1(input string) *graph {
-	var (
-		g = graph{
-			start: nil,
-			nodes: make(map[string]*node),
-		}
-		lines = strings.Split(input, "\n")
-	)
+func parseGraph(input string, st string) *graph {
+	g := &graph{
+		start: nil,
+		nodes: make(map[string]*node),
+	}
 
+	lines := strings.Split(strings.TrimSpace(input), "\n")
 	for _, line := range lines {
-		indicators := strings.Split(line, " ")
-		current := strings.TrimRight(indicators[0], ":")
+		parts := strings.Split(line, " ")
+		current := strings.TrimRight(parts[0], ":")
+
 		nd, ok := g.nodes[current]
 		if !ok {
 			nd = &node{
 				label:     current,
 				neighbors: make([]*node, 0),
+				memo:      make(map[[2]bool]int),
 			}
+			g.nodes[current] = nd
 		}
 
-		for i := 1; i < len(indicators); i++ {
-			ng, ngOk := g.nodes[indicators[i]]
-			if !ngOk {
+		for i := 1; i < len(parts); i++ {
+			lbl := parts[i]
+			ng, ok := g.nodes[lbl]
+			if !ok {
 				ng = &node{
-					label:     indicators[i],
+					label:     lbl,
 					neighbors: make([]*node, 0),
+					memo:      make(map[[2]bool]int),
 				}
+				g.nodes[lbl] = ng
 			}
 			nd.neighbors = append(nd.neighbors, ng)
-			g.nodes[indicators[i]] = ng
 		}
 
-		if nd.label == you {
+		if current == st {
 			g.start = nd
 		}
-		g.nodes[current] = nd
 	}
 
-	return &g
+	return g
 }

@@ -7,5 +7,5 @@ func TestUniquePathsContainItemsSample2(t *testing.T) {
 }
 
 func TestUniquePathsContainItemsPuzzle(t *testing.T) {
-	t.Log(uniquePathsContainsItems(puzzle)) //
+	t.Log(uniquePathsContainsItems(puzzle)) // 473741288064360
 }

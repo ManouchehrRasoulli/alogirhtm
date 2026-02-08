@@ -1,6 +1,6 @@
 package day11
 
 func uniquePaths(input string) int {
-	g := parseGraphPart1(input)
+	g := parseGraph(input, you)
 	return g.start.uniquePathsPart1()
 }

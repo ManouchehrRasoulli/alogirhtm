@@ -1,5 +1,6 @@
 package day11
 
 func uniquePathsContainsItems(input string) int {
-	panic("not implemented")
+	g := parseGraph(input, start)
+	return g.start.uniquePathsPart2(false, false)
 }
