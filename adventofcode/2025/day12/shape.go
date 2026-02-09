@@ -32,7 +32,7 @@ func (s shape) String() string {
 	for i, indic := range s.indices {
 		builder.WriteString(fmt.Sprintf("-- %d\n", i))
 		for _, l := range indic {
-			builder.WriteString(fmt.Sprintf("%c\n", l))
+			builder.WriteString(fmt.Sprintf("%c%c%c\n", l[0], l[1], l[2]))
 		}
 		builder.WriteString("\n")
 	}

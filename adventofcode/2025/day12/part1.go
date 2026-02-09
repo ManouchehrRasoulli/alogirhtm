@@ -1,7 +1,10 @@
 package day12
 
 import (
+	"context"
+	"fmt"
 	"strings"
+	"time"
 )
 
 func FitShapes(input string) int {
@@ -9,6 +12,7 @@ func FitShapes(input string) int {
 		lines   = strings.Split(input, "\n")
 		shapes  []shape
 		regions []region
+		count   int
 	)
 
 	for i := 0; i < len(lines); {
@@ -38,5 +42,17 @@ func FitShapes(input string) int {
 		i++
 	}
 
-	return 0
+	for i, r := range regions {
+		var res bool
+		ctx, cf := context.WithTimeout(context.Background(), time.Second)
+		// use a 1 second heuristic for finding the solution
+		res = r.fitAllShapes(0, ctx)
+		if res {
+			count++
+		}
+		cf()
+		fmt.Println(i, res)
+	}
+
+	return count
 }

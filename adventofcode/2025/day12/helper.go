@@ -60,3 +60,66 @@ func toIntArray(s string) []int {
 	}
 	return result
 }
+
+func shapeFitInGridAt(x, y int, grid [][]rune, shape [3][3]rune) bool {
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if y+j >= len(grid) {
+				return false
+			}
+			if x+i >= len(grid[y+j]) {
+				return false
+			}
+			if shape[i][j] != empty && grid[y+j][x+i] != empty {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func drawShape(x, y int, grid [][]rune, shape [3][3]rune) bool {
+	if !shapeFitInGridAt(x, y, grid, shape) {
+		return false
+	}
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if shape[i][j] != empty {
+				grid[y+j][x+i] = filled
+			}
+		}
+	}
+
+	return true
+}
+
+func clearShape(x, y int, grid [][]rune, shape [3][3]rune) {
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if shape[i][j] != empty {
+				grid[y+j][x+i] = empty
+			}
+		}
+	}
+}
+
+func gridKey(grid [][]rune) string {
+	var b strings.Builder
+	for _, row := range grid {
+		b.WriteString(string(row))
+	}
+	return b.String()
+}
+
+func shapeWeight(s shape) int {
+	count := 0
+	for _, row := range s.indices[0] {
+		for _, c := range row {
+			if c == filled {
+				count++
+			}
+		}
+	}
+	return count
+}
