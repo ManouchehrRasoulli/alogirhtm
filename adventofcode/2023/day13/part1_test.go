@@ -1,8 +1,9 @@
 package day13
 
 import (
-	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2023/helper"
 	"testing"
+
+	"github.com/ManouchehrRasoulli/alogirhtm/adventofcode/2023/helper"
 )
 
 func TestInputTest0Part1(t *testing.T) {
