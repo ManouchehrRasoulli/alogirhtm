@@ -26,20 +26,83 @@ func (f ground) String() string {
 	return buffer.String()
 }
 
-func TillNorth(ground ground) bool {
-	changed := false
-
-	for i := 1; i < len(ground); i++ {
-		for j := 0; j < len(ground[i]); j++ {
-			if ground[i][j] == round && ground[i-1][j] == empty {
-				ground[i-1][j] = round
-				ground[i][j] = empty
-				changed = true
+func TillNorth(ground ground) {
+	for {
+		changed := false
+		for i := 1; i < len(ground); i++ {
+			for j := 0; j < len(ground[i]); j++ {
+				if ground[i][j] == round && ground[i-1][j] == empty {
+					ground[i-1][j] = round
+					ground[i][j] = empty
+					changed = true
+				}
 			}
 		}
+		if !changed {
+			break
+		}
 	}
+}
 
-	return changed
+func TillSouth(ground ground) {
+	for {
+		changed := false
+		for i := len(ground) - 2; i >= 0; i-- {
+			for j := 0; j < len(ground[i]); j++ {
+				if ground[i][j] == round && ground[i+1][j] == empty {
+					ground[i+1][j] = round
+					ground[i][j] = empty
+					changed = true
+				}
+			}
+		}
+		if !changed {
+			break
+		}
+	}
+}
+
+func TillWest(ground ground) {
+	for {
+		changed := false
+		for i := 0; i < len(ground); i++ {
+			for j := 1; j < len(ground[i]); j++ {
+				if ground[i][j] == round && ground[i][j-1] == empty {
+					ground[i][j-1] = round
+					ground[i][j] = empty
+					changed = true
+				}
+			}
+		}
+		if !changed {
+			break
+		}
+	}
+}
+
+func TillEast(ground ground) {
+	for {
+		changed := false
+		for i := 0; i < len(ground); i++ {
+			for j := len(ground[i]) - 2; j >= 0; j-- {
+				if ground[i][j] == round && ground[i][j+1] == empty {
+					ground[i][j+1] = round
+					ground[i][j] = empty
+					changed = true
+				}
+			}
+		}
+		if !changed {
+			break
+		}
+	}
+}
+
+func Cycle(ground ground) {
+	TillNorth(ground)
+	TillWest(ground)
+	TillSouth(ground)
+	TillEast(ground)
 }
 
 func CalculateWeight(ground ground) int {
